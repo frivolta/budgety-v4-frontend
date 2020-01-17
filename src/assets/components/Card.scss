@@ -1,0 +1,18 @@
+.Card {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  max-width: 900px;
+  min-width: 150px;
+  min-height: 150px;
+  background-color: $lightPrimary;
+  box-shadow: 2px 0px 15px rgba(0, 0, 0, 0.05);
+  border-radius: $borderRadius;
+
+  &__content {
+    width: 100%;
+    padding: 16px 32px;
+  }
+}

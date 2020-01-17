@@ -1,0 +1,58 @@
+/*********************
+MISC
+*********************/
+$headerHeight: 72px;
+$sidebarWidth: 255px;
+$a-tags: 'a, a:active, a:hover, a:visited';
+$a-tags-hover: 'a:active, a:hover';
+$borderRadius: 5px;
+
+/*********************
+COLORS
+*********************/
+$lightPrimary: #ffffff;
+$lightSecondary: #f2f2f7;
+$darkPrimary: #4a4a4a;
+$darkSecondary: #e7e7e7;
+$primaryColor: #007aff;
+$errorColor: red;
+
+/*********************
+FONTS
+*********************/
+// Font families
+$poppins: 'Poppins', sans-serif;
+
+// Sizes
+$small: 14px;
+$smallLineHeight: 18px;
+$base: 16px;
+$baseLineHeight: 24px;
+$display: 28px;
+$displayLineHeight: 42px;
+
+/*********************
+BREAKPOINTS
+*********************/
+
+@mixin breakpoint($class) {
+  @if $class == xs {
+    @media (max-width: 767px) {
+      @content;
+    }
+  } @else if $class == sm {
+    @media (min-width: 768px) {
+      @content;
+    }
+  } @else if $class == md {
+    @media (min-width: 992px) {
+      @content;
+    }
+  } @else if $class == lg {
+    @media (min-width: 1200px) {
+      @content;
+    }
+  } @else {
+    @warn "Breakpoint mixin supports: xs, sm, md, lg";
+  }
+}

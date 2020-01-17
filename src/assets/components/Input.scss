@@ -1,0 +1,56 @@
+.Input {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  padding: 8px 16px;
+  font-family: $poppins;
+  font-size: $base;
+  color: $darkPrimary;
+
+  &--small {
+    justify-content: flex-start;
+    font-weight: 300;
+  }
+
+  &__field {
+    padding: 14px 20px;
+    border-radius: $borderRadius;
+    box-shadow: none;
+    border: 1px solid $darkSecondary;
+    color: $darkPrimary;
+    outline: none;
+
+    &::placeholder {
+      color: $darkPrimary;
+    }
+
+    &:focus {
+      border: 1px solid $primaryColor;
+      transition: all 0.5s;
+    }
+
+    &--small {
+      border: none;
+      border-bottom: 1px solid $darkSecondary;
+      border-radius: 0;
+      padding: 8px 0;
+      &:focus {
+        border: none;
+        border-bottom: 1px solid $primaryColor !important;
+        transition: all 0.5s;
+      }
+    }
+
+    &--hasErrors {
+      border-color: red;
+      &:focus {
+        border-color: red;
+      }
+      &__message {
+        color: red;
+        padding-top: 8px;
+        font-size: $small;
+      }
+    }
+  }
+}

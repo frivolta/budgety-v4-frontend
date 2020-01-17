@@ -1,0 +1,48 @@
+// Import fonts
+@import 'fonts';
+@import 'variables';
+html,
+body,
+#root {
+  width: 100%;
+  height: 100%;
+  background-color: $lightSecondary;
+}
+
+ul,
+li {
+  margin: 0;
+  padding: 0;
+}
+
+input {
+  transition: all 0.5s;
+}
+
+::placeholder {
+  /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: $darkSecondary !important;
+  opacity: 1; /* Firefox */
+}
+
+.mt-1 {
+  margin-top: 16px;
+}
+
+.mt-2 {
+  margin-top: 32px;
+}
+
+.mini {
+  color: $primaryColor;
+  font-size: $small;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+//Containers
+@import 'containers/LoginContainer';
+//Components
+@import 'components/Card';
+@import 'components/Input';
+@import 'components/Button';
