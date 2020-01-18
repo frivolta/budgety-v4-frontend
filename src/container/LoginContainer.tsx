@@ -1,34 +1,52 @@
 import React from 'react';
+import { useForm } from 'react-hook-form';
+import {SignupSchema} from '../utils/Signup.schema'
+
 import { Card } from '../components/Card/Card';
 import { Input } from '../components/Input/Input';
 import { Button } from '../components/Button/Button';
 
-const errorMessages = {
-  email: 'Email error',
-  password: 'Password error',
-  confirmPassword: 'Confirm password error'
+type FormData = {
+  email: string;
+  password: string;
+  confirmPassword: string;
 };
 
 export const LoginContainer: React.FC = () => {
+  const { register, errors, handleSubmit} = useForm<FormData>({validationSchema: SignupSchema});
+
+  const onSubmit = async (values: any) => {
+    await console.log(values);
+  };
+
   return (
     <div className="LoginContainer">
       <Card>
-        <Input placeholder="E-mail" type="text" hasErrors={true} errorMessage={errorMessages.email} value="" />
         <Input
+          name="email"
+          register={register}
+          placeholder="E-mail"
+          type="text"
+          hasErrors={errors.email}
+          errorMessage={errors.email?.message}
+        />
+        <Input
+          name="password"
+          register={register}
           placeholder="Password"
           type="password"
-          hasErrors={false}
-          errorMessage={errorMessages.password}
-          value=""
+          hasErrors={errors.password}
+          errorMessage={errors.password?.message}
         />
         <Input
+          name="confirmPassword"
+          register={register}
           placeholder="Confirm Password"
           type="password"
-          hasErrors={false}
-          errorMessage={errorMessages.confirmPassword}
-          value=""
+          hasErrors={errors.confirmPassword}
+          errorMessage={errors.confirmPassword?.message}
         />
-        <Button text="Sign up" handleClick={() => console.log('clicked')} />
+        <Button text="Sign up" handleClick={handleSubmit(onSubmit)} />
       </Card>
     </div>
   );
