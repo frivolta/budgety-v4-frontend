@@ -16,3 +16,27 @@
     padding: 48px 32px;
   }
 }
+
+.AltCard {
+  position: relative;
+  margin-top: 16px !important;
+  margin-bottom: 16px !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  width: 100%;
+  background-color: $lightPrimary;
+  box-shadow: 2px 0px 15px rgba(0, 0, 0, 0.05);
+  border-radius: $borderRadius;
+  background-color: $altBackground;
+  &__content {
+    font-size: $small;
+    font-weight: 700;
+    line-height: 24px;
+    color: $altColor;
+    font-family: $poppins;
+    width: 100%;
+    padding: 16px;
+  }
+}

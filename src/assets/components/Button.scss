@@ -28,4 +28,12 @@
   &__label {
     margin-top: 1px;
   }
+
+  &--disabled {
+    opacity: 0.4;
+    &:hover {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+  }
 }
