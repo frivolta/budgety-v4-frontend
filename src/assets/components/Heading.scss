@@ -1,0 +1,14 @@
+.Heading {
+}
+
+h1 {
+  &.Heading {
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 36px;
+    color: $darkPrimary;
+    font-family: $poppins;
+    margin: 0;
+    margin-bottom: 32px;
+  }
+}

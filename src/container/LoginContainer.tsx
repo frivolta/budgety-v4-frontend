@@ -5,6 +5,8 @@ import {SignupSchema} from '../utils/Signup.schema'
 import { Card } from '../components/Card/Card';
 import { Input } from '../components/Input/Input';
 import { Button } from '../components/Button/Button';
+import { Label } from '../components/Label/Label';
+import { Heading, variation } from '../components/Heading/Heading';
 
 type FormData = {
   email: string;
@@ -22,7 +24,8 @@ export const LoginContainer: React.FC = () => {
   return (
     <div className="LoginContainer">
       <Card>
-        <Input
+    <Heading variation={variation.h1}>Fill out the form <br/>and <span className="primary-color">Sign Up.</span></Heading>
+      <Input
           name="email"
           register={register}
           placeholder="E-mail"
@@ -47,7 +50,9 @@ export const LoginContainer: React.FC = () => {
           errorMessage={errors.confirmPassword?.message}
         />
         <Button text="Sign up" handleClick={handleSubmit(onSubmit)} />
-      </Card>
+        <Label>Already have an account? <a href="/signin" >Sign in.</a></Label>      
+
+        </Card>
     </div>
   );
 };

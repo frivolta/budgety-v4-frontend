@@ -21,8 +21,15 @@ input {
 
 ::placeholder {
   /* Chrome, Firefox, Opera, Safari 10.1+ */
-  color: $darkSecondary !important;
+  color: $darkPrimary !important;
   opacity: 1; /* Firefox */
+}
+
+.primary-color {
+  color: $primaryColor;
+}
+.alt-color {
+  color: $altColor;
 }
 
 .mt-1 {
@@ -46,3 +53,5 @@ input {
 @import 'components/Card';
 @import 'components/Input';
 @import 'components/Button';
+@import 'components/Label';
+@import 'components/Heading';
