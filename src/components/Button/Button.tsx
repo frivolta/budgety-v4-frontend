@@ -15,6 +15,7 @@ export const Button: React.FC<IButton> = props => {
       className={props.disabled ? 'Button Button--disabled' : 'Button'}
       onClick={props.handleClick}
       disabled={props.disabled}
+      data-testid="Button"
     >
       {props.icon && <img className="Button__icon" src={props.icon} alt="button icon" />}
       {!props.isLoading &&
@@ -22,7 +23,7 @@ export const Button: React.FC<IButton> = props => {
           {props.text}
         </span>}
       {props.isLoading &&
-        <span className="Button__label">
+        <span className="Button__label" data-testid="Spinner">
           <Spinner color="white" thickness={3} speed="slow" size="24px" />
         </span>}
     </button>
