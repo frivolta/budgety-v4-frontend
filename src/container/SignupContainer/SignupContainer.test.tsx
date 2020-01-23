@@ -1,0 +1,104 @@
+import React from 'react';
+import 'mutationobserver-shim';
+import { render, fireEvent } from '@testing-library/react';
+import '@testing-library/jest-dom/extend-expect';
+import { SignupContainer, SIGNUP_MUTATION } from './SignupContainer';
+import { ApolloProvider } from 'react-apollo';
+import { createMockClient } from 'mock-apollo-client';
+import { act } from 'react-dom/test-utils';
+
+import { SIGNUP_ERRORS } from '../../utils/Signup.schema';
+
+const validCredentials = {
+  user: 'testing@user.com',
+  password: 'ValidPassword01!'
+};
+
+const mockClient = createMockClient();
+const setupComponent = (
+  <ApolloProvider client={mockClient}>
+    <SignupContainer />
+  </ApolloProvider>
+);
+
+describe('<SignupContainer/>', () => {
+  it('renders without errors', () => {
+    const { getByTestId } = render(setupComponent);
+    expect(getByTestId('SignupContainer')).toBeInTheDocument();
+  });
+  it('renders form with correct fields', () => {
+    const { getByPlaceholderText, getByTestId } = render(setupComponent);
+    expect(getByPlaceholderText('E-mail')).toHaveValue('');
+    expect(getByPlaceholderText('Password')).toHaveValue('');
+    expect(getByPlaceholderText('Confirm Password')).toHaveValue('');
+    expect(getByTestId('Button')).toHaveTextContent('Sign up');
+  });
+});
+
+describe('<SignupContainer/> validation', () => {
+  it('throws an error if it is not an email', async () => {
+    const { getByPlaceholderText, getByTestId, getByText } = render(setupComponent);
+    const emailField = getByPlaceholderText('E-mail');
+    const submitButton = getByTestId('Button');
+    await act(async () => {
+      fireEvent.change(emailField, { target: { value: 'invalidEmail' } });
+      fireEvent.click(submitButton);
+    });
+    expect(getByText(SIGNUP_ERRORS.invalidEmail)).toBeInTheDocument();
+    expect(getByText(SIGNUP_ERRORS.passwordRequired)).toBeInTheDocument();
+    expect(getByText(SIGNUP_ERRORS.confirmPasswordRequired)).toBeInTheDocument();
+    expect(submitButton).toBeDisabled();
+  });
+  it('throws an error password is not secure, not matching, required field is empty', async () => {
+    const { getByPlaceholderText, getByTestId, getByText } = render(setupComponent);
+    const passwordField = getByPlaceholderText('Password');
+    const confirmPasswordField = getByPlaceholderText('Confirm Password');
+    const submitButton = getByTestId('Button');
+    await act(async () => {
+      fireEvent.change(passwordField, { target: { value: 'invalidPassword' } });
+      fireEvent.change(confirmPasswordField, { target: { value: 'invalidPassword2' } });
+      fireEvent.click(submitButton);
+    });
+    expect(getByText(SIGNUP_ERRORS.required)).toBeInTheDocument();
+    expect(getByText(SIGNUP_ERRORS.invalidPassword)).toBeInTheDocument();
+    expect(getByText(SIGNUP_ERRORS.passwordMatch)).toBeInTheDocument();
+    expect(submitButton).toBeDisabled();
+  });
+});
+
+describe('<SignupContainer/> integration', () => {
+  it('correctly signup a valid user', async () => {
+    const { getByPlaceholderText, getByTestId } = render(setupComponent);
+    const emailField = getByPlaceholderText('E-mail');
+    const passwordField = getByPlaceholderText('Password');
+    const confirmPasswordField = getByPlaceholderText('Confirm Password');
+    const submitButton = getByTestId('Button');
+
+    // Mocking mutation
+    const resolvedQueryHandler = jest.fn().mockResolvedValue({
+      data: {
+        signup: {
+          token: 'token',
+          user: {
+            id: 'id'
+          }
+        }
+      }
+    });
+
+    mockClient.setRequestHandler(SIGNUP_MUTATION, resolvedQueryHandler);
+
+    await act(async () => {
+      fireEvent.change(emailField, { target: { value: validCredentials.user } });
+      fireEvent.change(passwordField, { target: { value: validCredentials.password } });
+      fireEvent.change(confirmPasswordField, { target: { value: validCredentials.password } });
+      fireEvent.click(submitButton);
+    });
+
+    expect(resolvedQueryHandler).toHaveBeenCalledTimes(1);
+    expect(resolvedQueryHandler).toHaveBeenCalledWith({
+      email: validCredentials.user,
+      password: validCredentials.password
+    });
+  });
+});

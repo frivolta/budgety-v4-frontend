@@ -1,5 +1,6 @@
 import React from 'react';
 import { FieldError } from 'react-hook-form';
+import { string } from 'yup';
 
 interface IInput {
   small?: boolean;
@@ -11,7 +12,6 @@ interface IInput {
   hasErrors?: FieldError | undefined;
   errorMessage: string | undefined;
   handleChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  handleKeyPress?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
   disabled?: boolean;
 }
 
@@ -27,11 +27,11 @@ export const Input: React.FC<IInput> = props => {
         className={`Input__field ${props.small && `Input__field--small`} ${props.hasErrors &&
           `Input__field--hasErrors`}`}
         placeholder={props.placeholder}
-        onKeyPress={props.handleKeyPress}
         disabled={props.disabled ? props.disabled : false}
+        data-testid="Input"
       />
       {props.hasErrors &&
-        <span className="Input__field--hasErrors__message">
+        <span className="Input__field--hasErrors__message" data-testid="Input-error">
           {props.errorMessage}
         </span>}
     </div>

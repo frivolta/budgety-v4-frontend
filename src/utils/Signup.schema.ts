@@ -1,13 +1,22 @@
 import * as yup from 'yup';
 
+export enum SIGNUP_ERRORS {
+  required = 'Required',
+  invalidEmail = 'Email not valid',
+  invalidPassword = 'Password not strong enough',
+  passwordRequired = 'Please enter your password',
+  confirmPasswordRequired = 'Please confirm your password',
+  passwordMatch = 'Passwords must match'
+}
+
 export const SignupSchema = yup.object().shape({
-  email: yup.string().email('Email not valid').required('Required'),
+  email: yup.string().email(SIGNUP_ERRORS.invalidEmail).required(SIGNUP_ERRORS.required),
   password: yup
     .string()
-    .required('Please Enter your password')
-    .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{6,})/, 'Password not strong enough'),
+    .required(SIGNUP_ERRORS.passwordRequired)
+    .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{6,})/, SIGNUP_ERRORS.invalidPassword),
   confirmPassword: yup
     .string()
-    .required('Please confirm your password')
-    .oneOf([yup.ref('password'), null], 'Passwords must match')
+    .required(SIGNUP_ERRORS.confirmPasswordRequired)
+    .oneOf([yup.ref('password'), null], SIGNUP_ERRORS.passwordMatch)
 });

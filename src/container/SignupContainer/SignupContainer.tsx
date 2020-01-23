@@ -2,14 +2,14 @@ import React from 'react';
 import gql from 'graphql-tag'
 import { useForm } from 'react-hook-form';
 import { useMutation } from 'react-apollo'
-import {SignupSchema} from '../utils/Signup.schema'
+import {SignupSchema} from '../../utils/Signup.schema'
 
-import { Card } from '../components/Card/Card';
-import { Input } from '../components/Input/Input';
-import { Button } from '../components/Button/Button';
-import { Label } from '../components/Label/Label';
-import { Heading, variation } from '../components/Heading/Heading';
-import { ErrorMessage } from '../components/ErrorMessage/ErrorMessage';
+import { Card } from '../../components/Card/Card';
+import { Input } from '../../components/Input/Input';
+import { Button } from '../../components/Button/Button';
+import { Label } from '../../components/Label/Label';
+import { Heading, variation } from '../../components/Heading/Heading';
+import { ErrorMessage } from '../../components/ErrorMessage/ErrorMessage';
 
 type FormData = {
   email: string;
@@ -25,7 +25,7 @@ export const SIGNUP_MUTATION = gql`
   }
 `
 
-export const LoginContainer: React.FC = () => {
+export const SignupContainer: React.FC = () => {
   const { register, errors, handleSubmit} = useForm<FormData>({validationSchema: SignupSchema});
   const [signUp, { loading: mutationLoading, error: mutationError },] = useMutation(SIGNUP_MUTATION)
 
@@ -38,7 +38,7 @@ export const LoginContainer: React.FC = () => {
   };
 
   return (
-    <div className="LoginContainer">
+    <div className="SignupContainer" data-testid="SignupContainer">
       <Card>
     <Heading variation={variation.h1}>Fill out the form <br/>and <span className="primary-color">Sign Up.</span></Heading>
       <Input
@@ -67,7 +67,7 @@ export const LoginContainer: React.FC = () => {
         />
 
         <Button text="Sign up" handleClick={handleSubmit(onSubmit)} isLoading={mutationLoading} disabled={!!errors.email || !!errors.password || !!errors.confirmPassword}/>
-        {mutationError && <ErrorMessage>{mutationError.message}</ErrorMessage> } 
+        {mutationError && <ErrorMessage data-testid='ErrorMessage'>{mutationError.message}</ErrorMessage> } 
         <Label>Already have an account? <a href="/signin" >Sign in.</a></Label>   
         </Card>
     </div>

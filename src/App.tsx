@@ -1,8 +1,8 @@
 import React from 'react';
-import { LoginContainer } from './container/LoginContainer';
+import { SignupPage } from './pages/signup';
 
 const App: React.FC = () => {
-  return <LoginContainer />;
+  return <SignupPage />;
 };
 
 export default App;
