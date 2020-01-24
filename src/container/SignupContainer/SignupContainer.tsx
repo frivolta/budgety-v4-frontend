@@ -11,6 +11,9 @@ import { Label } from '../../components/Label/Label';
 import { Heading, variation } from '../../components/Heading/Heading';
 import { ErrorMessage } from '../../components/ErrorMessage/ErrorMessage';
 
+import { toasterInfo, toasterError } from '../../utils/showToaster';
+import { SUCCESS, ERRORS } from '../../utils/messages';
+
 type FormData = {
   email: string;
   password: string;
@@ -32,8 +35,10 @@ export const SignupContainer: React.FC = () => {
   const onSubmit = async (values: any) => {
     try{
     await signUp({variables: {email: values.email, password: values.password}})
+    toasterInfo(SUCCESS.signupSuccess)
     }catch(err){
-      console.error("Signup error: ", err)
+      await toasterError(ERRORS.signupFailed)
+      console.error('Signup error: ', err)
     }
   };
 

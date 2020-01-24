@@ -8,6 +8,8 @@ import { createMockClient } from 'mock-apollo-client';
 import { act } from 'react-dom/test-utils';
 
 import { SIGNUP_ERRORS } from '../../utils/Signup.schema';
+import { SUCCESS } from '../../utils/messages';
+import { toasterInfo } from '../../utils/showToaster';
 
 const validCredentials = {
   user: 'testing@user.com',
@@ -68,7 +70,7 @@ describe('<SignupContainer/> validation', () => {
 
 describe('<SignupContainer/> integration', () => {
   it('correctly signup a valid user', async () => {
-    const { getByPlaceholderText, getByTestId } = render(setupComponent);
+    const { getByPlaceholderText, getByTestId, getByText } = render(setupComponent);
     const emailField = getByPlaceholderText('E-mail');
     const passwordField = getByPlaceholderText('Password');
     const confirmPasswordField = getByPlaceholderText('Confirm Password');
