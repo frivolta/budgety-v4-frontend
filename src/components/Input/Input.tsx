@@ -8,8 +8,8 @@ interface IInput {
   name: string;
   value?: string;
   register?: any;
-  hasErrors?: FieldError | undefined;
-  errorMessage: string | undefined;
+  hasErrors?: FieldError | boolean | undefined;
+  errorMessage?: string | undefined;
   handleChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   disabled?: boolean;
 }
