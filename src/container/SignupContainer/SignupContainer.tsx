@@ -1,5 +1,8 @@
 import React from 'react';
 import gql from 'graphql-tag'
+
+import { Link } from 'react-router-dom';
+
 import { useForm } from 'react-hook-form';
 import { useMutation } from 'react-apollo'
 import {SignupSchema} from '../../utils/Signup.schema'
@@ -13,6 +16,7 @@ import { ErrorMessage } from '../../components/ErrorMessage/ErrorMessage';
 
 import { toasterInfo, toasterError } from '../../utils/showToaster';
 import { SUCCESS, ERRORS } from '../../utils/messages';
+
 
 type FormData = {
   email: string;
@@ -73,7 +77,7 @@ export const SignupContainer: React.FC = () => {
 
         <Button text="Sign up" handleClick={handleSubmit(onSubmit)} isLoading={mutationLoading} disabled={!!errors.email || !!errors.password || !!errors.confirmPassword}/>
         {mutationError && <ErrorMessage data-testid='ErrorMessage'>{mutationError.message}</ErrorMessage> } 
-        <Label>Already have an account? <a href="/signin" >Sign in.</a></Label>   
+        <Label>Already have an account? <Link to="/signin" >Sign in.</Link></Label>   
         </Card>
     </div>
   );

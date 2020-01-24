@@ -1,15 +1,17 @@
 import React from 'react';
 import 'mutationobserver-shim';
-import { render, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
-import { SignupContainer, SIGNUP_MUTATION } from './SignupContainer';
-import { ApolloProvider } from 'react-apollo';
-import { createMockClient } from 'mock-apollo-client';
-import { act } from 'react-dom/test-utils';
 
+import { Router } from 'react-router-dom';
+import { createMemoryHistory } from 'history';
+import { ApolloProvider } from 'react-apollo';
+
+import { render, fireEvent } from '@testing-library/react';
+import { act } from 'react-dom/test-utils';
+import { createMockClient } from 'mock-apollo-client';
+
+import { SignupContainer, SIGNUP_MUTATION } from './SignupContainer';
 import { SIGNUP_ERRORS } from '../../utils/Signup.schema';
-import { SUCCESS } from '../../utils/messages';
-import { toasterInfo } from '../../utils/showToaster';
 
 const validCredentials = {
   user: 'testing@user.com',
@@ -17,10 +19,13 @@ const validCredentials = {
 };
 
 const mockClient = createMockClient();
+const history = createMemoryHistory();
 const setupComponent = (
-  <ApolloProvider client={mockClient}>
-    <SignupContainer />
-  </ApolloProvider>
+  <Router history={history}>
+    <ApolloProvider client={mockClient}>
+      <SignupContainer />
+    </ApolloProvider>
+  </Router>
 );
 
 describe('<SignupContainer/>', () => {
@@ -28,6 +33,7 @@ describe('<SignupContainer/>', () => {
     const { getByTestId } = render(setupComponent);
     expect(getByTestId('SignupContainer')).toBeInTheDocument();
   });
+
   it('renders form with correct fields', () => {
     const { getByPlaceholderText, getByTestId } = render(setupComponent);
     expect(getByPlaceholderText('E-mail')).toHaveValue('');
@@ -70,7 +76,7 @@ describe('<SignupContainer/> validation', () => {
 
 describe('<SignupContainer/> integration', () => {
   it('correctly signup a valid user', async () => {
-    const { getByPlaceholderText, getByTestId, getByText } = render(setupComponent);
+    const { getByPlaceholderText, getByTestId } = render(setupComponent);
     const emailField = getByPlaceholderText('E-mail');
     const passwordField = getByPlaceholderText('Password');
     const confirmPasswordField = getByPlaceholderText('Confirm Password');

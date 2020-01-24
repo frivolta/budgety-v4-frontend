@@ -1,6 +1,5 @@
 import React from 'react';
 import { FieldError } from 'react-hook-form';
-import { string } from 'yup';
 
 interface IInput {
   small?: boolean;
