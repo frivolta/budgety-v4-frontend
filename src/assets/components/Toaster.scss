@@ -1,0 +1,10 @@
+.Toastify {
+  &__toast-body {
+    font-family: $poppins;
+  }
+  &__progress-bar {
+    &--default {
+      background: $primaryColor;
+    }
+  }
+}
