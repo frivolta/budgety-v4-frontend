@@ -15,6 +15,7 @@ import { ErrorMessage } from '../../components/ErrorMessage/ErrorMessage';
 
 import { toasterInfo, toasterError } from '../../utils/showToaster';
 import { SUCCESS, ERRORS } from '../../utils/messages';
+import { setToken, setUserId } from '../../utils/authentication/auth.utils';
 
 //<Button text="Sign up" handleClick={handleSubmit(onSubmit)} isLoading={mutationLoading} disabled={!!errors.email || !!errors.password || !!errors.confirmPassword}/>
 type FormData = {
@@ -45,8 +46,8 @@ export const SigninContainer: React.FC = () => {
   const onSubmit = async (email: string, password: string) => {
     try {
       const result = await login({ variables: { email: email, password: password } });
-      // @ToDo: Set user to localStorage using custom hooks
-      console.log(result);
+      setToken(result.data.login.token);
+      setUserId(result.data.login.user.id);
       toasterInfo(SUCCESS.signinSuccess);
     } catch (err) {
       await toasterError(ERRORS.signinFailed);

@@ -6,6 +6,7 @@ import { SigninPage } from './pages/signin';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+
 toast.configure({
   className: 'Toaster',
   draggable: true,
