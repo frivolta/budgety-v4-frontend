@@ -1,9 +1,9 @@
 export const setToken = (token: string) => {
-  localStorage.removeItem('access-token');
-  localStorage.setItem('access-token', token);
+  localStorage.removeItem('auth-token');
+  localStorage.setItem('auth-token', token);
 };
 
 export const setUserId = (token: string) => {
-  localStorage.removeItem('auser-id');
+  localStorage.removeItem('user-id');
   localStorage.setItem('user-id', token);
 };

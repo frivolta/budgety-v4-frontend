@@ -1,10 +1,13 @@
 import React from 'react';
+import jwt_decode from "jwt-decode";
 import { Switch, Route, BrowserRouter } from 'react-router-dom';
 
 import { SignupPage } from './pages/signup';
 import { SigninPage } from './pages/signin';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { PrivateRoute } from './container/PrivateRoute/PrivateRoute';
+import { UserDetailsProvider } from './context/useUserDetailsValue';
 
 
 toast.configure({
@@ -14,15 +17,41 @@ toast.configure({
   autoClose: 20000
 });
 
-const App: React.FC = () => {
+type decodedToken = {
+  userId: string;
+  exp: number;
+}
+
+const App: React.FC=() => {
+  const verifyAuthUser = () => {
+    const token = localStorage.getItem('auth-token');
+    if (token) {
+      const decoded:decodedToken = jwt_decode(token)
+      const currentTime = Date.now() / 1000;
+      if (decoded.exp < currentTime) {
+        //@dispatch logout user and redirect
+        window.location.href = "/signin";
+        console.log('Token expired!')
+        return false
+      }
+      //@dispatch user id, token, expiry to redux
+      return true;
+    } else {
+      return false;
+    }
+  };
+  
   return <>
+  <UserDetailsProvider>
   <BrowserRouter>
     <Switch>
       <Route exact path='/' component={SigninPage}/>
       <Route exact path='/signin' component={SigninPage}/>
       <Route exact path='/signup' component={SignupPage}/>
+      <PrivateRoute exact path="/signup-test" component={SignupPage} isSignedIn={verifyAuthUser()}/>
     </Switch>
   </BrowserRouter>
+  </UserDetailsProvider>
   </>;
 };
 
