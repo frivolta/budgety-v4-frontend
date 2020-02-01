@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 export const useUserDetail = () => {
   const [userIsLoggedIn, setUserIsLoggedIn] = useState<boolean>(false);

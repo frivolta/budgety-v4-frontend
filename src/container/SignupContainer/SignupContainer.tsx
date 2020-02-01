@@ -16,6 +16,7 @@ import { ErrorMessage } from '../../components/ErrorMessage/ErrorMessage';
 
 import { toasterInfo, toasterError } from '../../utils/showToaster';
 import { SUCCESS, ERRORS } from '../../utils/messages';
+import { formatNetworkErrorMessages } from '../../utils/format';
 
 
 type FormData = {
@@ -76,7 +77,7 @@ export const SignupContainer: React.FC = () => {
         />
 
         <Button text="Sign up" handleClick={handleSubmit(onSubmit)} isLoading={mutationLoading} disabled={!!errors.email || !!errors.password || !!errors.confirmPassword}/>
-        {mutationError && <ErrorMessage data-testid='ErrorMessage'>{mutationError.message}</ErrorMessage> } 
+        {mutationError && <ErrorMessage data-testid='ErrorMessage'>{formatNetworkErrorMessages(mutationError.message)}</ErrorMessage> } 
         <Label>Already have an account? <Link to="/signin" >Sign in.</Link></Label>   
         </Card>
     </div>

@@ -8,6 +8,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { PrivateRoute } from './container/PrivateRoute/PrivateRoute';
 import { UserDetailsProvider } from './context/useUserDetailsValue';
+import { IndexPage } from './pages/index';
 
 
 toast.configure({
@@ -45,10 +46,9 @@ const App: React.FC=() => {
   <UserDetailsProvider>
   <BrowserRouter>
     <Switch>
-      <Route exact path='/' component={SigninPage}/>
+    <PrivateRoute exact path="/" component={IndexPage} isSignedIn={verifyAuthUser()}/>
       <Route exact path='/signin' component={SigninPage}/>
       <Route exact path='/signup' component={SignupPage}/>
-      <PrivateRoute exact path="/signup-test" component={SignupPage} isSignedIn={verifyAuthUser()}/>
     </Switch>
   </BrowserRouter>
   </UserDetailsProvider>

@@ -1,4 +1,8 @@
-TESTING: 
+TODO: 
+- Signin redirects to dashboard
+- Logout button
+
+TESTING CYPRESS: 
 - Private Routes
 - Routes
 //- Signin Container / flow

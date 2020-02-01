@@ -16,13 +16,9 @@ import { ErrorMessage } from '../../components/ErrorMessage/ErrorMessage';
 import { toasterInfo, toasterError } from '../../utils/showToaster';
 import { SUCCESS, ERRORS } from '../../utils/messages';
 import { setToken, setUserId } from '../../utils/authentication/auth.utils';
+import { formatNetworkErrorMessages } from '../../utils/format';
 
 //<Button text="Sign up" handleClick={handleSubmit(onSubmit)} isLoading={mutationLoading} disabled={!!errors.email || !!errors.password || !!errors.confirmPassword}/>
-type FormData = {
-  email: string;
-  password: string;
-  confirmPassword: string;
-};
 
 export const SIGNIN_MUTATION = gql`
   mutation SigninMutation($email: String!, $password: String!) {
@@ -84,7 +80,7 @@ export const SigninContainer: React.FC = () => {
         />
         {mutationError &&
           <ErrorMessage data-testid="ErrorMessage">
-            {mutationError.message}
+            {formatNetworkErrorMessages(mutationError.message)}
           </ErrorMessage>}
         <Label>
           Already have an account? <Link to="/signup">Sign up now.</Link>
