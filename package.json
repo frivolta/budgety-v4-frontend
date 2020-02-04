@@ -1,5 +1,5 @@
 {
-  "name": "my-app",
+  "name": "budgety-v4-frontend",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -68,12 +68,22 @@
     ]
   },
   "browserslist": {
-    "production": [">0.2%", "not dead", "not op_mini all"],
-    "development": ["last 1 chrome version", "last 1 firefox version", "last 1 safari version"]
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   },
   "devDependencies": {
     "@apollo/react-testing": "^3.1.3",
     "@testing-library/dom": "^6.11.0",
     "jest-html-reporter": "^2.8.0"
-  }
+  },
+  "keywords": [],
+  "description": ""
 }

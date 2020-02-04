@@ -48,11 +48,19 @@ input {
 }
 
 .mt-1 {
-  margin-top: 16px;
+  margin-top: $base;
 }
 
 .mt-2 {
-  margin-top: 32px;
+  margin-top: $base*2;
+}
+
+.mr-1 {
+  margin-right: $base;
+}
+
+.mr-2 {
+  margin-right: $base*2;
 }
 
 .mini {
@@ -60,6 +68,11 @@ input {
   font-size: $small;
   text-transform: uppercase;
   text-align: center;
+}
+
+//Fonts
+.strong{
+  font-weight: 500!important;
 }
 
 //Containers
@@ -72,3 +85,8 @@ input {
 @import 'components/Label';
 @import 'components/Heading';
 @import 'components/Toaster';
+@import 'components/Header.scss';
+@import 'components/Footer.scss';
+@import 'components/Main.scss';
+@import 'components/Sidenav.scss';
+@import 'components/Icon.scss';

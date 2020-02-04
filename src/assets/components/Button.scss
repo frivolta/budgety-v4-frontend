@@ -17,6 +17,7 @@
   opacity: 1;
   transition: all ease-out 0.5s;
   border: none;
+  max-height: 60px;
 
   &:hover {
     opacity: 0.8;
