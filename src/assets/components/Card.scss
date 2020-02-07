@@ -47,3 +47,49 @@
     padding: 16px;
   }
 }
+
+.StdCard {
+  position: relative;
+  margin-top: 16px !important;
+  margin-bottom: 16px !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  width: 85%;
+  background-color: $lightPrimary;
+  box-shadow: 2px 0px 15px rgba(0, 0, 0, 0.05);
+  border-radius: $borderRadius;
+  background-color: $lightPrimary;
+  &--primary {
+    border-color: $expenseColor;
+  }
+  &--secondary {
+    border-color: $incomeColor;
+  }
+  @include breakpoint(xs) {
+    width: 78%;
+  }
+  &__content {
+    display: flex;
+    flex-direction: column;
+    font-size: $small;
+    font-weight: 700;
+    line-height: 12px;
+    color: $darkPrimary;
+    font-family: $poppins;
+    width: 100%;
+    padding: $base*1.5;
+    &__heading {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+    }
+    &__description {
+      display: flex;
+      justify-content: space-between;
+      font-size: $base;
+      margin-bottom: 18px;
+    }
+  }
+}

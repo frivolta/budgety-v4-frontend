@@ -1,23 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, ReactNode } from 'react';
 import { Header } from '../../components/Header/Header';
 import { Sidenav } from '../../components/Sidenav/Sidenav';
 import { Footer } from '../../components/Footer/Footer';
 
 import { useSidenavValue } from '../../context/useSidenavValue';
 
-export const DashboardContainer = () => {
+export interface IDashBoardContainer {
+  children: ReactNode;
+}
+
+export const DashboardContainer: React.FC<IDashBoardContainer> = ({ children }) => {
   const sidenavValues = useSidenavValue();
 
-  useEffect(() => {
-    sidenavValues.setSidenavIsOpen(false);
-  }, []);
-
-  console.log(sidenavValues.sidenavIsOpen);
   return (
     <div className="GridContainer">
       <Header />
       <Sidenav />
-      <main className="Main">b</main>
+      <main className="Main">
+        {children}
+      </main>
       <Footer />
     </div>
   );
