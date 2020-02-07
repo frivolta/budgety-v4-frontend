@@ -71,8 +71,12 @@ input {
 }
 
 //Fonts
-.strong{
-  font-weight: 500!important;
+.strong {
+  font-weight: 500 !important;
+}
+
+.alt-color {
+  color: $altColor;
 }
 
 //Containers

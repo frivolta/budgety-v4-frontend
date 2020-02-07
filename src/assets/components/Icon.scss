@@ -1,21 +1,25 @@
-.Icon{
+.Icon {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   &__menu,
-  &__darkmode{
+  &__darkmode,
+  &__logout {
     cursor: pointer;
     transition: opacity 0.3s ease-in-out;
-    &:hover{
+    &:hover {
       opacity: 0.8;
       transition: opacity 0.3s ease-in-out;
     }
   }
-  &__menu{
+  &__menu {
     margin-right: $base*2;
-    @include breakpoint(sm){
+    @include breakpoint(sm) {
       display: none;
     }
+  }
+  &__logout {
+    width: 28px;
   }
 }

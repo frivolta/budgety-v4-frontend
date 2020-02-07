@@ -1,6 +1,7 @@
-import React from "react";
-import { Header } from "../../components/Header/Header";
-import { Sidenav } from "../../components/Sidenav/Sidenav";
+import React from 'react';
+import { Header } from '../../components/Header/Header';
+import { Sidenav } from '../../components/Sidenav/Sidenav';
+import { Footer } from '../../components/Footer/Footer';
 
 export const DashboardContainer = () => {
   return (
@@ -8,7 +9,7 @@ export const DashboardContainer = () => {
       <Header />
       <Sidenav />
       <main className="Main">b</main>
-      <footer className="Footer">d</footer>
+      <Footer />
     </div>
   );
 };

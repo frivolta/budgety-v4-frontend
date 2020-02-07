@@ -12,7 +12,8 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import { setContext } from 'apollo-link-context';
 
 const httpLink = createHttpLink({
-  uri: 'http://localhost:4000'
+  //uri: 'http://localhost:4000'
+  uri: 'https://pure-chamber-52572.herokuapp.com/'
 });
 
 const authLink = setContext((_, { headers }) => {

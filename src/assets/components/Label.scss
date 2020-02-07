@@ -12,4 +12,10 @@
       text-decoration: underline;
     }
   }
+
+  &__small {
+    font-size: $small;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
 }
