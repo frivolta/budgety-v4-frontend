@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 //import { PrivateRoute } from "./container/PrivateRoute/PrivateRoute";
 import { UserDetailsProvider } from "./context/useUserDetailsValue";
+import { SidenavProvider } from "./context/useSidenavValue";
 import { IndexPage } from "./pages/index";
 
 toast.configure({
@@ -44,14 +45,16 @@ const App: React.FC = () => {
   return (
     <>
       <UserDetailsProvider>
-        <BrowserRouter>
-          <Switch>
-            {/*<PrivateRoute exact path="/" component={IndexPage} isSignedIn={verifyAuthUser()}/>*/}
-            <Route exact path="/" component={IndexPage} />
-            <Route exact path="/signin" component={SigninPage} />
-            <Route exact path="/signup" component={SignupPage} />
-          </Switch>
-        </BrowserRouter>
+        <SidenavProvider>
+          <BrowserRouter>
+            <Switch>
+              {/*<PrivateRoute exact path="/" component={IndexPage} isSignedIn={verifyAuthUser()}/>*/}
+              <Route exact path="/" component={IndexPage} />
+              <Route exact path="/signin" component={SigninPage} />
+              <Route exact path="/signup" component={SignupPage} />
+            </Switch>
+          </BrowserRouter>
+        </SidenavProvider>
       </UserDetailsProvider>
     </>
   );
