@@ -6,9 +6,5 @@ import { StdCard } from '../components/Card/StdCard';
 export const IndexPage = () =>
   <DashboardContainer>
     <StdCard> FILTERS</StdCard>
-    <ExpenseCard
-      type={expenseType.EXPENSE}
-      description="Lorem ipsum dolor sit amet, consectetur adipiscing elit"
-      date="3 february 2020"
-    />
+    <ExpenseCard type={expenseType.EXPENSE} description="Tre Offerta Scegli Prepagata" date="3 february 2020" />
   </DashboardContainer>;
