@@ -1,10 +1,10 @@
 .GridContainer {
   display: grid;
   grid-template-columns: 260px 1fr;
-  grid-template-rows: 72px 1fr 50px;
+  grid-template-rows: $headerHeight 1fr 50px;
   grid-template-areas: "header header" "sidenav main" "sidenav footer";
   height: 100vh;
-  @include breakpoint(xs){
+  @include breakpoint(xs) {
     grid-template-columns: 1fr;
     min-height: 100vh;
     height: auto;
@@ -28,11 +28,11 @@
     display: flex;
     flex-direction: row;
   }
-  &__right{
+  &__right {
     display: flex;
     align-items: center;
   }
-  @include breakpoint(xs){
+  @include breakpoint(xs) {
     position: fixed;
     width: 100%;
     height: 72px;
@@ -41,8 +41,8 @@
 
 .Sidenav {
   grid-area: sidenav;
- padding-top: $headerHeight;
-  transition: all 0.4s ease-in;
+  padding-top: $headerHeight;
+  transition: all 0.4s ease-in-out;
   background: $lightPrimary;
   display: flex;
   box-shadow: 10px 0px 10px rgba(0, 0, 0, 0.05);
@@ -60,8 +60,19 @@
     margin-right: 32px;
   }
 
-  @include breakpoint(xs){
-  display: none;
+  @include breakpoint(xs) {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    width: 100%;
+    max-width: 100%;
+    bottom: 0;
+    transform: translate(-100%, 0);
+
+    &--isActive {
+      transform: translate(0, 0);
+    }
   }
 }
 
@@ -72,12 +83,12 @@
 
 .Footer {
   grid-area: footer;
- display: flex;
+  display: flex;
   align-items: center;
   justify-content: center;
   padding: 0 32px;
   background-color: $lightSecondary;
-  @include breakpoint(xs){
+  @include breakpoint(xs) {
     height: 72px;
   }
 }

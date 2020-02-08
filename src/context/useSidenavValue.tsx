@@ -1,5 +1,5 @@
-import React, { useContext, createContext, ReactNode } from "react";
-import { useSidenav } from "../hooks/useSidenav";
+import React, { useContext, createContext, ReactNode } from 'react';
+import { useSidenav } from '../hooks/useSidenav';
 interface IUseSidenav {
   sidenavIsOpen: boolean;
   setSidenavIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -9,7 +9,7 @@ interface IUseSidenavProviderProps {
   children: ReactNode;
 }
 
-const UseSidenavContext = createContext<IUseSidenav | boolean>(true);
+const UseSidenavContext = createContext<IUseSidenav | any>(false);
 
 const SidenavProvider = ({ children }: IUseSidenavProviderProps) => {
   const { sidenavIsOpen, setSidenavIsOpen } = useSidenav();

@@ -62,13 +62,12 @@
   box-shadow: 2px 0px 15px rgba(0, 0, 0, 0.05);
   border-radius: $borderRadius;
   background-color: $lightPrimary;
-
   &--primary {
-    border-color: $expenseColor;
+    border-right: 5px solid $expenseColor;
   }
 
   &--secondary {
-    border-color: $incomeColor;
+    border-right: 5px solid $incomeColor;
   }
 
   @include breakpoint(xs) {

@@ -1,12 +1,18 @@
 //Grid style in DashboardContainer.scss
-.Sidenav{
+.Sidenav {
   padding: $base*2;
-  &__wrapper{
+  @include breakpoint(xs) {
+    padding: 0;
+  }
+  &__wrapper {
     width: 100%;
     height: 100%;
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
     flex-direction: column;
+    @include breakpoint(xs) {
+      padding: $base*2;
+    }
   }
 }

@@ -1,13 +1,17 @@
 import React from 'react';
 import { Label } from '../Label/Label';
 
+import { useSidenavValue } from '../../context/useSidenavValue';
+
 export interface IHeader {}
 
 export const Header: React.FC = () => {
+  const { sidenavIsOpen, setSidenavIsOpen } = useSidenavValue();
+
   return (
     <div className="Header">
       <div className="Header__left">
-        <div className="Icon Icon__menu" role="button" onClick={() => console.log('is open')}>
+        <div className="Icon Icon__menu" role="button" onClick={() => setSidenavIsOpen(!sidenavIsOpen)}>
           <img src="/images/burger-menu.svg" alt="burger menu" />
         </div>
         <div className="Icon Icon__darkmode">
