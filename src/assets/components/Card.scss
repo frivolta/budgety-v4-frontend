@@ -62,6 +62,12 @@
   box-shadow: 2px 0px 15px rgba(0, 0, 0, 0.05);
   border-radius: $borderRadius;
   background-color: $lightPrimary;
+
+  &__wrapper {
+    display: flex;
+    flex-direction: column;
+  }
+
   &--primary {
     border-right: 5px solid $expenseColor;
   }

@@ -10,6 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { UserDetailsProvider } from "./context/useUserDetailsValue";
 import { SidenavProvider } from "./context/useSidenavValue";
 import { IndexPage } from "./pages/index";
+import { AddExpensePage } from './pages/addExpense';
 
 toast.configure({
   className: "Toaster",
@@ -50,6 +51,7 @@ const App: React.FC = () => {
             <Switch>
               {/*<PrivateRoute exact path="/" component={IndexPage} isSignedIn={verifyAuthUser()}/>*/}
               <Route exact path="/" component={IndexPage} />
+              <Route exact path="/expense/add" component={AddExpensePage} />
               <Route exact path="/signin" component={SigninPage} />
               <Route exact path="/signup" component={SignupPage} />
             </Switch>

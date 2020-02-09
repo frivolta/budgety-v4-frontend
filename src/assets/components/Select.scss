@@ -1,0 +1,75 @@
+.Select {
+  display: flex;
+  margin: 16px 0;
+  justify-content: center;
+  flex-direction: column;
+  font-family: $poppins;
+  font-size: $base;
+  color: $darkPrimary;
+
+  select {
+    display: none;
+  }
+
+  .select-selected {
+    background-color: DodgerBlue;
+  }
+  .select-selected:after {
+    position: absolute;
+    content: "";
+    top: 14px;
+    right: 10px;
+    width: 0;
+    height: 0;
+    border: 6px solid transparent;
+    border-color: #fff transparent transparent transparent;
+  }
+
+  &--small {
+    justify-content: flex-start;
+    font-weight: 300;
+  }
+
+  &__field {
+    padding: 14px;
+    border-radius: $borderRadius;
+    box-shadow: none;
+    border: 1px solid $darkSecondary;
+    color: $darkPrimary;
+    outline: none;
+    font-weight: 300;
+    &::placeholder {
+      color: $darkPrimary;
+    }
+
+    &:focus {
+      border: 1px solid $primaryColor;
+      transition: all 0.5s;
+    }
+
+    &--small {
+      border: none;
+      border-bottom: 1px solid $darkSecondary;
+      border-radius: 0;
+      padding: 8px 0;
+      &:focus {
+        border: none;
+        border-bottom: 1px solid $primaryColor !important;
+        transition: all 0.5s;
+      }
+    }
+
+    &--hasErrors {
+      border-color: red;
+      &:focus {
+        border-color: red;
+      }
+      &__message {
+        color: red;
+        padding-top: 8px;
+        font-size: $small;
+        font-weight: 500;
+      }
+    }
+  }
+}
