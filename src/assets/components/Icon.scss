@@ -5,7 +5,8 @@
   flex-direction: column;
   &__menu,
   &__darkmode,
-  &__logout {
+  &__logout,
+  &__close-menu {
     cursor: pointer;
     transition: opacity 0.3s ease-in-out;
     &:hover {
@@ -19,7 +20,10 @@
       display: none;
     }
   }
-  &__logout {
+
+  &__logout,
+  &__close-menu {
     width: 28px;
+    height: 28px;
   }
 }

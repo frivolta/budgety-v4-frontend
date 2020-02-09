@@ -4,6 +4,7 @@ import { Heading, variation } from '../components/Heading/Heading';
 import { StdCard } from '../components/Card/StdCard';
 import { Input } from '../components/Input/Input';
 import { Select } from '../components/Select/Select';
+import { Button } from '../components/Button/Button';
 import { expenseTypeData, categoryData } from '../data/expensesData';
 import Calendar from 'react-calendar';
 
@@ -26,6 +27,13 @@ export const AddExpensePage: React.FC = () => {
             value={description}
             handleChange={e => setDescription(e.target.value)}
           />
+          <Select
+            options={expenseTypeData}
+            name="expenseType"
+            placeholder="Expense type"
+            value={amount}
+            handleChange={e => console.log(e.target)}
+          />
           <Input
             name="amount"
             placeholder="Amount"
@@ -34,20 +42,14 @@ export const AddExpensePage: React.FC = () => {
             handleChange={e => setAmount(e.target.value)}
           />
           <Select
-            options={expenseTypeData}
-            name="expenseType"
-            placeholder="Expense type"
-            value={amount}
-            handleChange={e => console.log(e.target)}
-          />
-          <Select
             options={categoryData}
             name="category"
             placeholder="Category"
             value={amount}
             handleChange={e => console.log(e.target)}
           />
-          <Calendar onChange={(date: any) => setStartDate(date)} value={startDate} />{' '}
+          <Calendar onChange={(date: any) => setStartDate(date)} value={startDate} />
+          <Button text="Add Expense" handleClick={() => Promise.resolve(console.log('new item'))} />
         </div>
       </StdCard>
     </DashboardContainer>

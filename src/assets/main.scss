@@ -86,6 +86,13 @@ input {
   overflow: hidden;
 }
 
+//Display
+.hidden-sm-up {
+  @include breakpoint(sm) {
+    display: none !important;
+  }
+}
+
 //Containers
 @import 'containers/SignupContainer';
 @import 'containers/DashboardContainer';
