@@ -1,17 +1,20 @@
 import React, { useState } from 'react';
+import { convertToCurrency } from '../utils/format';
 import { DashboardContainer } from '../container/DashboardContainer/DashboardContainer';
+import Calendar from 'react-calendar';
 import { Heading, variation } from '../components/Heading/Heading';
 import { StdCard } from '../components/Card/StdCard';
 import { Input } from '../components/Input/Input';
 import { Select } from '../components/Select/Select';
 import { Button } from '../components/Button/Button';
 import { expenseTypeData, categoryData } from '../data/expensesData';
-import Calendar from 'react-calendar';
 
 export const AddExpensePage: React.FC = () => {
   const [description, setDescription] = useState<string>('');
-  const [amount, setAmount] = useState<string>('');
+  const [amount, setAmount] = useState<string>('€ 0');
   const [startDate, setStartDate] = useState<Date>(new Date());
+
+  const convertToCurrencyOnBlur = (amountToConvert: string) => setAmount(`€ ${convertToCurrency(amountToConvert)}`);
 
   return (
     <DashboardContainer>
@@ -31,21 +34,21 @@ export const AddExpensePage: React.FC = () => {
             options={expenseTypeData}
             name="expenseType"
             placeholder="Expense type"
-            value={amount}
+            value={expenseTypeData[0].value}
             handleChange={e => console.log(e.target)}
           />
           <Input
             name="amount"
-            placeholder="Amount"
+            placeholder="Amount €"
             type="text"
-            value={amount}
+            blur={e => convertToCurrencyOnBlur(e.target.value)}
+            value={`${amount}`}
             handleChange={e => setAmount(e.target.value)}
           />
           <Select
             options={categoryData}
             name="category"
             placeholder="Category"
-            value={amount}
             handleChange={e => console.log(e.target)}
           />
           <Calendar onChange={(date: any) => setStartDate(date)} value={startDate} />

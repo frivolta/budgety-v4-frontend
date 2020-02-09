@@ -12,6 +12,7 @@ interface IInput {
   errorMessage?: string | undefined;
   handleChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   disabled?: boolean;
+  blur?: ((event: React.FocusEvent<HTMLInputElement>) => void) | undefined;
 }
 
 export const Input: React.FC<IInput> = props => {
@@ -23,6 +24,7 @@ export const Input: React.FC<IInput> = props => {
         type={props.type}
         value={props.value}
         onChange={props.handleChange}
+        onBlur={props.blur}
         className={`Input__field ${props.small && `Input__field--small`} ${props.hasErrors &&
           `Input__field--hasErrors`}`}
         placeholder={props.placeholder}
