@@ -5,7 +5,9 @@ html,
 body,
 #root {
   width: 100%;
+  max-width: 100%;
   height: 100%;
+  overflow-x: hidden;
   background-color: $lightSecondary;
 }
 
@@ -101,3 +103,4 @@ input {
 @import 'components/Icon.scss';
 @import 'components/Menu.scss';
 @import 'components/Select.scss';
+@import 'components/Calendar.scss';

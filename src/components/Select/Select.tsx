@@ -34,7 +34,7 @@ export const Select: React.FC<ISelect> = props => {
         data-testid="Select"
       >
         {props.options.map(option =>
-          <option value={option.value} key={option.id}>
+          <option className="Select__option" value={option.value} key={option.id}>
             {option.caption}
           </option>
         )}

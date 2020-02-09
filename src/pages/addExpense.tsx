@@ -5,7 +5,7 @@ import { StdCard } from '../components/Card/StdCard';
 import { Input } from '../components/Input/Input';
 import { Select } from '../components/Select/Select';
 import { expenseTypeData, categoryData } from '../data/expensesData';
-import DatePicker from 'react-date-picker';
+import Calendar from 'react-calendar';
 
 export const AddExpensePage: React.FC = () => {
   const [description, setDescription] = useState<string>('');
@@ -47,7 +47,7 @@ export const AddExpensePage: React.FC = () => {
             value={amount}
             handleChange={e => console.log(e.target)}
           />
-          <DatePicker onChange={(date: any) => setStartDate(date)} value={startDate} />{' '}
+          <Calendar onChange={(date: any) => setStartDate(date)} value={startDate} />{' '}
         </div>
       </StdCard>
     </DashboardContainer>
