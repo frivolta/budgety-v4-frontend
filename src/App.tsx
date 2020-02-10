@@ -10,7 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { UserDetailsProvider } from "./context/useUserDetailsValue";
 import { SidenavProvider } from "./context/useSidenavValue";
 import { IndexPage } from "./pages/index";
-import { AddExpensePage } from './pages/addExpense';
+import { AddExpensePage } from "./pages/addExpense";
 
 toast.configure({
   className: "Toaster",
@@ -25,7 +25,7 @@ type decodedToken = {
 };
 
 const App: React.FC = () => {
-/*   const verifyAuthUser = () => {
+  /*   const verifyAuthUser = () => {
     const token = localStorage.getItem("auth-token");
     if (token) {
       const decoded: decodedToken = jwt_decode(token);

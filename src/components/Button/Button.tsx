@@ -2,7 +2,9 @@ import React from "react";
 import Spinner from "react-svg-spinner";
 
 interface IButton {
-  handleClick: (e: React.BaseSyntheticEvent<object, any, any>) => Promise<void>;
+  handleClick: (
+    e: React.BaseSyntheticEvent<object, any, any>
+  ) => Promise<void> | void;
   text: string;
   icon?: string;
   disabled?: boolean;
