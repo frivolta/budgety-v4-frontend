@@ -15,6 +15,7 @@ export const AddExpensePage: React.FC = () => {
   const [description, setDescription] = useState<string>("");
   const [amount, setAmount] = useState<string>("€ 0");
   const [category, setCategory] = useState<string>("");
+  const [expenseType, setExpenseType] = useState<string>("");
   const [startDate, setStartDate] = useState<Date>(new Date());
 
   const convertToCurrencyOnBlur = (amountToConvert: string) =>
@@ -25,7 +26,7 @@ export const AddExpensePage: React.FC = () => {
       description,
       amount.replace("€", "").trim(),
       category,
-      "expense",
+      expenseType,
       moment(startDate)
         .utc()
         .format()
@@ -51,8 +52,8 @@ export const AddExpensePage: React.FC = () => {
             options={expenseTypeData}
             name="expenseType"
             placeholder="Expense type"
-            value={expenseTypeData[0].value}
-            handleChange={e => console.log(e.target)}
+            value={expenseType}
+            handleChange={e => setExpenseType(e.target.value)}
           />
           <Input
             name="amount"
@@ -66,7 +67,8 @@ export const AddExpensePage: React.FC = () => {
             options={categoryData}
             name="category"
             placeholder="Category"
-            handleChange={e => console.log(e.target)}
+            handleChange={e => setCategory(e.target.value)}
+            value={category}
           />
           <Calendar
             onChange={(date: any) => setStartDate(date)}
