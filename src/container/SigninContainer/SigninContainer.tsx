@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import gql from 'graphql-tag';
 import validator from 'validator';
+import { useHistory } from 'react-router-dom';
 
 import { Link } from 'react-router-dom';
 
@@ -15,7 +16,7 @@ import { ErrorMessage } from '../../components/ErrorMessage/ErrorMessage';
 
 import { toasterInfo, toasterError } from '../../utils/showToaster';
 import { SUCCESS, ERRORS } from '../../utils/messages';
-import { setToken, setUserId } from '../../utils/authentication/auth.utils';
+import { setUserId, asyncSetToken } from '../../utils/authentication/auth.utils';
 import { formatNetworkErrorMessages } from '../../utils/format';
 
 //<Button text="Sign up" handleClick={handleSubmit(onSubmit)} isLoading={mutationLoading} disabled={!!errors.email || !!errors.password || !!errors.confirmPassword}/>
@@ -35,6 +36,7 @@ export const SigninContainer: React.FC = () => {
   const [login, { loading: mutationLoading, error: mutationError }] = useMutation(SIGNIN_MUTATION);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  let history = useHistory();
 
   const isValidEmail = (validationEmail: string): boolean => validator.isEmail(email);
   const isValidPassword = (validationPassword: string): boolean => !validator.isEmpty(validationPassword);
@@ -42,9 +44,10 @@ export const SigninContainer: React.FC = () => {
   const onSubmit = async (email: string, password: string) => {
     try {
       const result = await login({ variables: { email: email, password: password } });
-      setToken(result.data.login.token);
+      await asyncSetToken(result.data.login.token);
       setUserId(result.data.login.user.id);
       toasterInfo(SUCCESS.signinSuccess);
+      history.push('/expense/add');
     } catch (err) {
       await toasterError(ERRORS.signinFailed);
       console.error('Signin error: ', err);

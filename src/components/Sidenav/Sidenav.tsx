@@ -1,4 +1,6 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
+
 import { Button } from '../Button/Button';
 
 import { useSidenavValue } from '../../context/useSidenavValue';
@@ -7,6 +9,7 @@ import { useSidenavValue } from '../../context/useSidenavValue';
 
 export const Sidenav = () => {
   const { sidenavIsOpen, setSidenavIsOpen } = useSidenavValue();
+  let history = useHistory();
 
   return (
     <aside className={sidenavIsOpen ? `Sidenav Sidenav--isActive` : `Sidenav`}>
@@ -19,7 +22,7 @@ export const Sidenav = () => {
           <img src="/images/close-menu.svg" alt="close menu" />
         </div>
         {/*<MenuItemList />*/}
-        <Button text="New Expense" handleClick={() => Promise.resolve(console.log('new item'))} />
+        <Button text="New Expense" handleClick={() => history.push('/expense/add')} />
       </div>
     </aside>
   );

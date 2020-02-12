@@ -16,7 +16,7 @@ interface ISelect {
   register?: any;
   hasErrors?: FieldError | boolean | undefined;
   errorMessage?: string | undefined;
-  handleChange?: (event: ChangeEvent) => void;
+  handleChange?: (event: React.ChangeEvent<HTMLSelectElement>) => void;
   disabled?: boolean;
 }
 
