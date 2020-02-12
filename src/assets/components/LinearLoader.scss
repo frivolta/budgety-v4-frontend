@@ -1,0 +1,35 @@
+.LinearLoader {
+  margin-bottom: $base;
+  z-index: 0;
+  &__container {
+    width: 100%;
+    height: 8px;
+    background-color: $lightSecondary;
+  }
+
+  &__intermittent {
+    position: relative;
+    max-width: 100%;
+    height: 100%;
+    transition: all 300ms ease-in-out 1s;
+  }
+
+  &__continues {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-color: $primaryColor;
+    animation: continuesAnim 1.5s infinite ease-out;
+  }
+
+  @keyframes continuesAnim {
+    0% {
+      left: -100%;
+      width: 100%;
+    }
+    100% {
+      left: 100%;
+      width: 70%;
+    }
+  }
+}

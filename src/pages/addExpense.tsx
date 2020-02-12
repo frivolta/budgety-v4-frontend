@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import gql from 'graphql-tag';
 import { useMutation } from 'react-apollo';
 import moment from 'moment';
+import { toasterInfo, toasterError } from '../utils/showToaster';
 import { convertToCurrency } from '../utils/format';
 import { createExpenseObject } from '../utils/expenses';
 import { DashboardContainer } from '../container/DashboardContainer/DashboardContainer';
@@ -12,6 +13,8 @@ import { Input } from '../components/Input/Input';
 import { Select } from '../components/Select/Select';
 import { Button } from '../components/Button/Button';
 import { expenseTypeData, categoryData } from '../data/expensesData';
+import { SUCCESS, ERRORS } from '../utils/messages';
+import { ErrorMessage } from '../components/ErrorMessage/ErrorMessage';
 
 const CREATE_EXPENSE_MUTATION = gql`
   mutation CreateExpense($type: String!, $description: String!, $date: String!, $amount: Float!) {
@@ -23,7 +26,7 @@ const CREATE_EXPENSE_MUTATION = gql`
 `;
 
 export const AddExpensePage: React.FC = () => {
-  const [createExpense, { data, loading, error }] = useMutation(CREATE_EXPENSE_MUTATION);
+  const [createExpense, { loading, error }] = useMutation(CREATE_EXPENSE_MUTATION);
   const [description, setDescription] = useState<string>('');
   const [amount, setAmount] = useState<string>('€ 0');
   const [category, setCategory] = useState<string>('');
@@ -32,15 +35,21 @@ export const AddExpensePage: React.FC = () => {
 
   const convertToCurrencyOnBlur = (amountToConvert: string) => setAmount(`€ ${convertToCurrency(amountToConvert)}`);
 
-  const handleSubmit = () => {
-    const expenseObject = createExpenseObject(
-      description,
-      parseFloat(amount.replace('€', '').trim()),
-      category,
-      expenseType,
-      moment(startDate).utc().format()
-    );
-    createExpense({ variables: expenseObject });
+  const handleSubmit = async () => {
+    try {
+      const expenseObject = createExpenseObject(
+        description,
+        parseFloat(amount.replace('€', '').trim()),
+        category,
+        expenseType,
+        moment(startDate).utc().format()
+      );
+      await createExpense({ variables: expenseObject });
+      toasterInfo(SUCCESS.addExpenseSuccess);
+    } catch (error) {
+      await toasterError(ERRORS.addExpenseFailed);
+      console.error('Signup error: ', error);
+    }
   };
 
   return (
@@ -82,6 +91,10 @@ export const AddExpensePage: React.FC = () => {
           />
           <Calendar onChange={(date: any) => setStartDate(date)} value={startDate} />
           <Button text="Add Expense" handleClick={() => handleSubmit()} isLoading={loading} disabled={loading} />
+          {error &&
+            <ErrorMessage>
+              {error.message}
+            </ErrorMessage>}
         </div>
       </StdCard>
     </DashboardContainer>

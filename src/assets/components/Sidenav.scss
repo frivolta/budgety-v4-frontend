@@ -1,6 +1,7 @@
 //Grid style in DashboardContainer.scss
 .Sidenav {
   padding: $base*2;
+  z-index: 1;
   @include breakpoint(xs) {
     padding: 0;
   }
