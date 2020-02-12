@@ -12,7 +12,7 @@ import { PrivateRoute } from "./container/PrivateRoute/PrivateRoute";
 import { UserDetailsProvider } from "./context/useUserDetailsValue";
 import { SidenavProvider } from "./context/useSidenavValue";
 import { IndexPage } from "./pages/index";
-import { AddExpensePage } from './pages/addExpense';
+import { AddExpensePage } from "./pages/addExpense";
 
 
 toast.configure({

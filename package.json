@@ -1,5 +1,5 @@
 {
-  "name": "budgety-v4-frontend",
+  "name": "updated-2",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -41,7 +41,8 @@
     "react-toastify": "^5.5.0",
     "typescript": "~3.7.2",
     "validator": "^12.1.0",
-    "yup": "^0.28.0"
+    "yup": "^0.28.0",
+    "moment": "^2.10.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -75,11 +76,7 @@
     ]
   },
   "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
+    "production": [">0.2%", "not dead", "not op_mini all"],
     "development": [
       "last 1 chrome version",
       "last 1 firefox version",

@@ -35,6 +35,16 @@ export const AddExpensePage: React.FC = () => {
   const handleSubmit = () => {
     const expenseObject = createExpenseObject(
       description,
+      amount.replace('€', '').trim(),
+      category,
+      expenseType,
+      moment(startDate).utc().format()
+    );
+  };
+
+  const handleSubmit = () => {
+    const expenseObject = createExpenseObject(
+      description,
       parseFloat(amount.replace('€', '').trim()),
       category,
       expenseType,
