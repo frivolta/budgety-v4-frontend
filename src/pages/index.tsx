@@ -24,7 +24,6 @@ export const IndexPage: React.FC = () => {
 
   return (
     <DashboardContainer>
-      {/**@ToDo: This must be a widget */}
       <StdCard> FILTERS</StdCard>
       {data &&
         data.me.expenses.map((expense: any) =>
