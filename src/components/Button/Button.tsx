@@ -7,6 +7,7 @@ interface IButton {
   icon?: string;
   disabled?: boolean;
   isLoading?: boolean;
+  classNames?: string;
 }
 
 export const Button: React.FC<IButton> = props => {

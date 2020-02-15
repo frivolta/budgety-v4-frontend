@@ -23,6 +23,7 @@ export const Sidenav = () => {
         </div>
         {/*<MenuItemList />*/}
         <Button text="New Expense" handleClick={() => history.push('/expense/add')} />
+        <Button text="All Expenses" handleClick={() => history.push('/')} />
       </div>
     </aside>
   );

@@ -1,4 +1,7 @@
 import numeral from 'numeral';
+import { expenseType } from '../components/Card/ExpenseCard';
+import moment from 'moment';
+
 export const formatNetworkErrorMessages = (errorMessage: string) => errorMessage.replace('GraphQL error:', '').trim();
 
 export const convertToCurrency = (value: string) => {
@@ -14,4 +17,14 @@ export const convertToCurrency = (value: string) => {
   value = value.replace(/^0([^.].*)$/, '$1');
 
   return numeral(value).format('€ 0,0[.]00');
+};
+
+export const convertAmountToCurrency = (value: number, expenseName: string) => {
+  const typeSymbol = expenseName === expenseType.INCOME ? '+' : '-';
+  const formattedAmount = `${typeSymbol} ${value.toFixed(2)} €`;
+  return formattedAmount;
+};
+
+export const convertDateToReadable = (date: string) => {
+  return moment(date).format('MMMM Do YYYY');
 };

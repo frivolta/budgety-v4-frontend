@@ -25,6 +25,8 @@ const CREATE_EXPENSE_MUTATION = gql`
   }
 `;
 
+// @ToDo: Refetch expense query after mutation
+
 export const AddExpensePage: React.FC = () => {
   const [createExpense, { loading, error }] = useMutation(CREATE_EXPENSE_MUTATION);
   const [description, setDescription] = useState<string>('');

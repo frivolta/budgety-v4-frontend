@@ -48,6 +48,7 @@ const verifyAuthUser = () => {
   return (
     <>
     <AuthDataProvider>
+  
       <UserDetailsProvider>
         <SidenavProvider>
           <BrowserRouter>
