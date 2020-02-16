@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import gql from 'graphql-tag';
-import { useMutation } from 'react-apollo';
 import moment from 'moment';
+import { useMutation } from 'react-apollo';
 import { toasterInfo, toasterError } from '../utils/showToaster';
 import { convertToCurrency } from '../utils/format';
 import { createExpenseObject } from '../utils/expenses';
@@ -17,8 +17,8 @@ import { SUCCESS, ERRORS } from '../utils/messages';
 import { ErrorMessage } from '../components/ErrorMessage/ErrorMessage';
 
 const CREATE_EXPENSE_MUTATION = gql`
-  mutation CreateExpense($type: String!, $description: String!, $date: String!, $amount: Float!) {
-    createExpense(type: $type, description: $description, date: $date, amount: $amount) {
+  mutation CreateExpense($type: String!, $description: String!, $date: String!, $amount: Float!, $category: String!) {
+    createExpense(type: $type, description: $description, date: $date, amount: $amount, category: $category) {
       id
       amount
     }
@@ -31,7 +31,7 @@ export const AddExpensePage: React.FC = () => {
   const [createExpense, { loading, error }] = useMutation(CREATE_EXPENSE_MUTATION);
   const [description, setDescription] = useState<string>('');
   const [amount, setAmount] = useState<string>('€ 0');
-  const [category, setCategory] = useState<string>('');
+  const [category, setCategory] = useState<string>(categoryData[0].value);
   const [expenseType, setExpenseType] = useState<string>('');
   const [startDate, setStartDate] = useState<Date>(new Date());
 

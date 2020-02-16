@@ -21,6 +21,7 @@ export const GET_ME_EXPENSES_QUERY = gql`
         type
         description
         date
+        category
       }
     }
   }
@@ -45,8 +46,8 @@ export const IndexPage: React.FC = () => {
   return (
     <DashboardContainer>
       <LinearLoader isActive={loading} />
-      {expenses && <StdCard> FILTERS</StdCard>}
-      {!expenses && !loading && !error && <StdCard>You don't have any expense.</StdCard>}
+      {(expenses && expenses.length>0) && <StdCard> FILTERS</StdCard>}
+      {(!expenses || !expenses.length) && !loading && <StdCard>You don't have any expense.</StdCard>}
       {expenses &&
         expenses.map((expense: ExpenseType, key) => (
           <ExpenseCard

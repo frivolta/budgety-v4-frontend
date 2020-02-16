@@ -20,7 +20,7 @@ export const ExpenseCard: React.FC<IExpenseCard> = props =>
   <StdCard className={props.type === expenseType.EXPENSE ? 'StdCard--primary' : 'StdCard--secondary'}>
     <div className="StdCard__content__data">
       <div className="StdCard__content__category" style={{ color: '#ff224f' }}>
-        TRANSPORTATION {/*props.category*/}
+        {props.category}
       </div>
       <div className="StdCard__content__description">
         <span className="no-wrap">

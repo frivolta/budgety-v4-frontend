@@ -11,10 +11,9 @@ export const createExpenseObject = (
   const expenseObject = {
     description: description !== '' ? description : 'Generic',
     amount: amount || 0,
-    category: category || 'cash',
+    category: category || 'Uncategorized',
     type: type || 'expense',
     date: date || Date.now().toString()
   };
-
   return expenseObject;
 };
