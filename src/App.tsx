@@ -29,8 +29,14 @@ type decodedToken = {
 
 const App: React.FC = () => {
 
-const verifyAuthUser = () => {
-    const token = localStorage.getItem("auth-token");
+/** 
+* Verify if user is signed-in.
+* @summary Async(private route can't render before complete) get localstorage jwt, decode it, verify if it is valid.
+* @return {Promise<boolean>} true if user is signed in
+*/
+
+const verifyAuthUser = async() => {
+    const token = await localStorage.getItem("auth-token");
     if (token) {
       const decoded: decodedToken = jwt_decode(token);
       const currentTime = Date.now() / 1000;
@@ -48,7 +54,6 @@ const verifyAuthUser = () => {
   return (
     <>
     <AuthDataProvider>
-  
       <UserDetailsProvider>
         <SidenavProvider>
           <BrowserRouter>
