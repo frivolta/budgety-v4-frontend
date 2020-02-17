@@ -1,8 +1,10 @@
 import React from "react";
 import jwt_decode from "jwt-decode";
 import { Switch, Route, BrowserRouter } from "react-router-dom";
+import { Provider } from "react-redux";
+import { store } from "./redux/configureStore";
 
-import { AuthDataProvider } from './context/useAuthDataContext';
+import { AuthDataProvider } from "./context/useAuthDataContext";
 
 import { SignupPage } from "./pages/signup";
 import { SigninPage } from "./pages/signin";
@@ -13,7 +15,6 @@ import { UserDetailsProvider } from "./context/useUserDetailsValue";
 import { SidenavProvider } from "./context/useSidenavValue";
 import { IndexPage } from "./pages/index";
 import { AddExpensePage } from "./pages/addExpense";
-
 
 toast.configure({
   className: "Toaster",
@@ -28,14 +29,13 @@ type decodedToken = {
 };
 
 const App: React.FC = () => {
+  /**
+   * Verify if user is signed-in.
+   * @summary Async(private route can't render before complete) get localstorage jwt, decode it, verify if it is valid.
+   * @return {Promise<boolean>} true if user is signed in
+   */
 
-/** 
-* Verify if user is signed-in.
-* @summary Async(private route can't render before complete) get localstorage jwt, decode it, verify if it is valid.
-* @return {Promise<boolean>} true if user is signed in
-*/
-
-const verifyAuthUser = async() => {
+  const verifyAuthUser = async () => {
     const token = await localStorage.getItem("auth-token");
     if (token) {
       const decoded: decodedToken = jwt_decode(token);
@@ -53,20 +53,32 @@ const verifyAuthUser = async() => {
 
   return (
     <>
-    <AuthDataProvider>
-      <UserDetailsProvider>
-        <SidenavProvider>
-          <BrowserRouter>
-            <Switch>
-              <PrivateRoute exact path="/" component={IndexPage} isSignedIn={verifyAuthUser()}/>
-              <PrivateRoute exact path="/expense/add" component={AddExpensePage} isSignedIn={verifyAuthUser()}/>
-              <Route exact path="/signin" component={SigninPage} />
-              <Route exact path="/signup" component={SignupPage} />
-            </Switch>
-          </BrowserRouter>
-        </SidenavProvider>
-      </UserDetailsProvider>
-      </AuthDataProvider>
+      <Provider store={store}>
+        <AuthDataProvider>
+          <UserDetailsProvider>
+            <SidenavProvider>
+              <BrowserRouter>
+                <Switch>
+                  <PrivateRoute
+                    exact
+                    path="/"
+                    component={IndexPage}
+                    isSignedIn={verifyAuthUser()}
+                  />
+                  <PrivateRoute
+                    exact
+                    path="/expense/add"
+                    component={AddExpensePage}
+                    isSignedIn={verifyAuthUser()}
+                  />
+                  <Route exact path="/signin" component={SigninPage} />
+                  <Route exact path="/signup" component={SignupPage} />
+                </Switch>
+              </BrowserRouter>
+            </SidenavProvider>
+          </UserDetailsProvider>
+        </AuthDataProvider>
+      </Provider>
     </>
   );
 };

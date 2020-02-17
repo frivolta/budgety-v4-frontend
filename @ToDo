@@ -1,6 +1,5 @@
 TODO: 
-- Signin redirects to dashboard
-- Logout button
+
 
 TESTING CYPRESS: 
 - Private Routes
@@ -8,3 +7,24 @@ TESTING CYPRESS:
 //- Signin Container / flow
 //- App token
 - Toaster
+
+STORE: 
+{
+  staticFilters: [
+    {
+      filterName: 'EXPENSE_TYPE',
+      filterValue: ['INCOME'],
+      isActive: true
+    },
+    {
+      filterName: 'CATEGORY',
+      filterValue: [],
+      isActive: false
+    },
+  ],
+
+  searchFilter:...,
+  dateFilter:...,
+}
+
+everytime a new filter is active: (props) => props.filters changes, expenses are filtered in index.tsx

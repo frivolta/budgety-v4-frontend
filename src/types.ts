@@ -18,3 +18,9 @@ export type ExpenseType = {
   type: string;
   date: string;
 };
+
+export type FilterType = {
+  filterName: string;
+  filterValue: string[];
+  isActive: boolean;
+};

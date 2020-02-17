@@ -1,5 +1,5 @@
 {
-  "name": "updated-2",
+  "name": "redux",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -13,6 +13,7 @@
     "@types/react": "^16.9.0",
     "@types/react-datepicker": "^2.11.0",
     "@types/react-dom": "^16.9.0",
+    "@types/react-redux": "7.1.7",
     "@types/react-router-dom": "^5.1.3",
     "@types/validator": "^12.0.1",
     "@types/yup": "^0.26.27",
@@ -22,6 +23,7 @@
     "graphql": "^14.5.8",
     "jwt-decode": "^2.2.0",
     "mock-apollo-client": "^0.2.0",
+    "moment": "^2.10.0",
     "mutationobserver-shim": "^0.3.3",
     "node-sass": "^4.13.1",
     "normalize.css": "^8.0.1",
@@ -34,15 +36,17 @@
     "react-day-picker": "^7.4.0",
     "react-dom": "^16.12.0",
     "react-hook-form": "^4.5.5",
+    "react-redux": "7.1.3",
     "react-router": "^5.1.2",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.3.0",
     "react-svg-spinner": "^1.0.4",
     "react-toastify": "^5.5.0",
+    "redux": "4.0.5",
+    "typesafe-actions": "5.1.0",
     "typescript": "~3.7.2",
     "validator": "^12.1.0",
-    "yup": "^0.28.0",
-    "moment": "^2.10.0"
+    "yup": "^0.28.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -76,7 +80,11 @@
     ]
   },
   "browserslist": {
-    "production": [">0.2%", "not dead", "not op_mini all"],
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
     "development": [
       "last 1 chrome version",
       "last 1 firefox version",
