@@ -29,8 +29,6 @@ export const GET_ME_EXPENSES_QUERY = gql`
 `;
 
 export const IndexPage: React.FC = () => {
-  const store = useSelector(state => state.filters);
-  console.log(store)
   const { loading, error, data } = useQuery(GET_ME_EXPENSES_QUERY);
   const {expenses, setExpenses} = useExpenses()
 
