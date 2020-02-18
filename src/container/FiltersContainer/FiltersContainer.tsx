@@ -76,22 +76,26 @@ export const FiltersContainer: React.FC = () => {
 
   return (
     <div className="FiltersContainer">
-      <Label>Expense type:</Label>
-      <Select
-        placeholder="Filter by expense type..."
-        name="expense-type-filter"
-        options={extendedExpenseTypeData}
-        value={expenseTypeFilter.value}
-        handleChange={event => setExpenseTypeByValue(event.target.value)}
-      />
-      <Label>Category:</Label>
-      <Select
-        placeholder="Filter by category..."
-        name="category-type-filter"
-        options={extendedCategoryTypeData}
-        value={categoryTypeFilter.value}
-        handleChange={event => setCategoryTypeByValue(event.target.value)}
-      />
+      <div className="FiltersContainer__group">
+        <Label classNames="FiltersContainer__group__label">Expense type:</Label>
+        <Select
+          placeholder="Filter by expense type..."
+          name="expense-type-filter"
+          options={extendedExpenseTypeData}
+          value={expenseTypeFilter.value}
+          handleChange={event => setExpenseTypeByValue(event.target.value)}
+        />
+      </div>
+      <div className="FiltersContainer__group">
+        <Label classNames="FiltersContainer__group__label">Category:</Label>
+        <Select
+          placeholder="Filter by category..."
+          name="category-type-filter"
+          options={extendedCategoryTypeData}
+          value={categoryTypeFilter.value}
+          handleChange={event => setCategoryTypeByValue(event.target.value)}
+        />
+      </div>
     </div>
   );
 };
