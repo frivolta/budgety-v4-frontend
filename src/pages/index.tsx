@@ -36,21 +36,28 @@ export const IndexPage: React.FC = () => {
 
   const [filteredExpenses, setFilteredExpenses]  = useState(expenses);
 
+  /**
+   * Set expenses and filteredExpensens
+   * @summary Function called on filters change or expenses change. Checks the redux state, if a filter is active filters the expenses array.
+   * @param {expenses: ExpenseType[]}
+   * @returns {filteredExpenses: ExpenseType[]}
+   */
   const defineFilteredExpenses = useCallback((expenses: ExpenseType[]) => {
     // 0) Define all expenses
     setExpenses(expenses)
     // 1) Define filtered expenses
-    let filteredExpenses: ExpenseType[] = expenses;
-    
+    let filteredExpenses: ExpenseType[] = expenses;    
     // 2) Look for active filters and filter expenses
     if(filters.expenseTypeFilter.isActive){
       filteredExpenses = filteredExpenses.filter(filteredExpense=>filters.expenseTypeFilter.filterValue.includes(filteredExpense.type))
     }
 
-    console.log(filteredExpenses)
+    if(filters.expenseCategoryFilter.isActive){
+      filteredExpenses = filteredExpenses.filter(filteredExpense=>filters.expenseCategoryFilter.filterValue.includes(filteredExpense.category))
+    }
     // 3) return filteredExpenses
     return filteredExpenses;
-  }, [setExpenses, filters.expenseTypeFilter.filterValue, filters.expenseTypeFilter.isActive])
+  }, [setExpenses, filters.expenseTypeFilter.filterValue, filters.expenseTypeFilter.isActive, filters.expenseCategoryFilter.filterValue, filters.expenseCategoryFilter.isActive])
 
 
   useEffect(() => {

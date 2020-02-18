@@ -32,7 +32,6 @@ export const Sidenav = () => {
         {/*<MenuItemList />*/}
         <Button text="New Expense" handleClick={() => history.push('/expense/add')} />
         <Button text="All Expenses" handleClick={() => history.push('/')} />
-        <Button text="Dispatch filter" handleClick={disp} />
         <FiltersContainer />
       </div>
     </aside>

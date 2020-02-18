@@ -6,8 +6,13 @@ import { expenseTypeData, categoryData } from '../../data/expensesData';
 import { Label } from '../../components/Label/Label';
 import { Select } from '../../components/Select/Select';
 
-import { ExpenseTypeType } from '../../types';
-import { startAddExpenseTypeFilter, startClearExpenseTypeFilter } from '../../redux/actions/staticFiltersActions';
+import { ExpenseTypeType, CategoryType } from '../../types';
+import {
+  startAddExpenseTypeFilter,
+  startClearExpenseTypeFilter,
+  startAddCategoryTypeFilter,
+  startClearCategoryTypeFilter
+} from '../../redux/actions/staticFiltersActions';
 
 const defaultExpenseType: ExpenseTypeType = {
   id: 0,
@@ -15,17 +20,27 @@ const defaultExpenseType: ExpenseTypeType = {
   caption: 'No filter'
 };
 
+const defaultCategoryType: CategoryType = {
+  id: 0,
+  value: 'default',
+  caption: 'No filter',
+  color: 'color'
+};
+
 const extendedExpenseTypeData: ExpenseTypeType[] = expenseTypeData.concat(defaultExpenseType);
+const extendedCategoryTypeData: CategoryType[] = categoryData.concat(defaultCategoryType);
 
 export const FiltersContainer: React.FC = () => {
   const dispatch = useDispatch();
   const [expenseTypeFilter, setExpenseTypeFilter] = useState<ExpenseTypeType>(defaultExpenseType);
+  const [categoryTypeFilter, setCategoryTypeFilter] = useState<CategoryType>(defaultCategoryType);
 
   useEffect(
     () => {
       dispatchExpenseTypeFilter(expenseTypeFilter);
+      dispatchCategoryTypeFilter(categoryTypeFilter);
     },
-    [expenseTypeFilter]
+    [expenseTypeFilter, categoryTypeFilter]
   );
 
   // Set the right expense type, filtering value to the state
@@ -35,12 +50,27 @@ export const FiltersContainer: React.FC = () => {
     setExpenseTypeFilter(expenseTypeToSetAsState);
   };
 
+  const setCategoryTypeByValue = (value: string) => {
+    const categoryType = extendedCategoryTypeData.filter(category => category.value === value);
+    const [categoryTypeToSetAsState] = categoryType;
+    setCategoryTypeFilter(categoryTypeToSetAsState);
+  };
+
   // Expense type dispatcher when expenseType changes
   const dispatchExpenseTypeFilter = (expenseType: ExpenseTypeType) => {
     if (expenseType.value !== 'default') {
       dispatch(startAddExpenseTypeFilter(expenseType.value));
     } else {
       dispatch(startClearExpenseTypeFilter());
+    }
+  };
+
+  // Category type dispatcher when expenseType changes
+  const dispatchCategoryTypeFilter = (categoryType: CategoryType) => {
+    if (categoryType.value !== 'default') {
+      dispatch(startAddCategoryTypeFilter(categoryType.value));
+    } else {
+      dispatch(startClearCategoryTypeFilter());
     }
   };
 
@@ -55,7 +85,13 @@ export const FiltersContainer: React.FC = () => {
         handleChange={event => setExpenseTypeByValue(event.target.value)}
       />
       <Label>Category:</Label>
-      <Select placeholder="Filter by expense type..." name="expense-type-filter" options={categoryData} />
+      <Select
+        placeholder="Filter by category..."
+        name="category-type-filter"
+        options={extendedCategoryTypeData}
+        value={categoryTypeFilter.value}
+        handleChange={event => setCategoryTypeByValue(event.target.value)}
+      />
     </div>
   );
 };
