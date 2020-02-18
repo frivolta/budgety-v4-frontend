@@ -4,12 +4,20 @@ import { useHistory } from 'react-router-dom';
 import { Button } from '../Button/Button';
 
 import { useSidenavValue } from '../../context/useSidenavValue';
+import { FiltersContainer } from '../../container/FiltersContainer/FiltersContainer';
 
-//import { MenuItemList } from '../Menu/MenuItemList';
+//import { MenuItemList } from '../Menu/MenuItemList'
+import { startAddExpenseTypeFilter } from '../../redux/actions/staticFiltersActions';
+import { useDispatch } from 'react-redux';
 
 export const Sidenav = () => {
   const { sidenavIsOpen, setSidenavIsOpen } = useSidenavValue();
+  const dispatch = useDispatch();
   let history = useHistory();
+
+  const disp = async () => {
+    await dispatch(startAddExpenseTypeFilter('pippo'));
+  };
 
   return (
     <aside className={sidenavIsOpen ? `Sidenav Sidenav--isActive` : `Sidenav`}>
@@ -24,6 +32,8 @@ export const Sidenav = () => {
         {/*<MenuItemList />*/}
         <Button text="New Expense" handleClick={() => history.push('/expense/add')} />
         <Button text="All Expenses" handleClick={() => history.push('/')} />
+        <Button text="Dispatch filter" handleClick={disp} />
+        <FiltersContainer />
       </div>
     </aside>
   );

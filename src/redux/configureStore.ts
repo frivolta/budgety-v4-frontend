@@ -1,6 +1,7 @@
-import { createStore, combineReducers, compose } from 'redux';
+import { createStore, combineReducers, compose, applyMiddleware } from 'redux';
 import { staticFiltersReducer } from './reducers/staticFiltersReducer';
-//import { AppActions } from "../types/appActions";
+import thunk, { ThunkMiddleware } from 'redux-thunk';
+import { AppActions } from '../types/appActions';
 
 export const rootReducer = combineReducers({
   filters: staticFiltersReducer
@@ -16,4 +17,7 @@ declare global {
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-export const store = createStore(rootReducer, composeEnhancers());
+export const store = createStore(
+  rootReducer,
+  composeEnhancers(applyMiddleware(thunk as ThunkMiddleware<AppState, AppActions>))
+);

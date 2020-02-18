@@ -1,14 +1,8 @@
+// Expense
 export type ExpenseTypeType = {
   id: number;
   value: string;
   caption: string;
-};
-
-export type CategoryType = {
-  id: number;
-  value: string;
-  caption: string;
-  color: string;
 };
 
 export type ExpenseType = {
@@ -19,8 +13,21 @@ export type ExpenseType = {
   date: string;
 };
 
+// Category
+export type CategoryType = {
+  id: number;
+  value: string;
+  caption: string;
+  color: string;
+};
+
+// Filter
+export enum FILTERS_NAME {
+  EXPENSE_TYPE = 'EXPENSE_TYPE'
+}
+
 export type FilterType = {
-  filterName: string;
+  filterName: FILTERS_NAME;
   filterValue: string[];
   isActive: boolean;
 };

@@ -3,7 +3,8 @@ import {
   REMOVE_EXPENSE_TYPE_FILTER,
   CLEAR_EXPENSE_TYPE_FILTER,
   staticFiltersActionType
-} from "../../types/staticFiltersActions";
+} from '../../types/staticFiltersActions';
+import { FILTERS_NAME } from '../../types';
 
 type FilterType = {
   filterName: string;
@@ -17,7 +18,7 @@ interface IStaticFiltersState {
 
 const staticFiltersDefaultState: IStaticFiltersState = {
   expenseTypeFilter: {
-    filterName: "EXPENSE_TYPE",
+    filterName: FILTERS_NAME.EXPENSE_TYPE,
     filterValue: [],
     isActive: false
   }
@@ -33,7 +34,8 @@ const staticFiltersReducer = (
         ...state,
         expenseTypeFilter: {
           ...state.expenseTypeFilter,
-          filterValue: [...state.expenseTypeFilter.filterValue, action.filter],
+          //filterValue: [...state.expenseTypeFilter.filterValue, action.filter],
+          filterValue: [action.filter],
           isActive: true
         }
       };
@@ -42,9 +44,7 @@ const staticFiltersReducer = (
         ...state,
         expenseTypeFilter: {
           ...state.expenseTypeFilter,
-          filterValue: state.expenseTypeFilter.filterValue.filter(
-            value => value !== action.filter
-          ),
+          filterValue: state.expenseTypeFilter.filterValue.filter(value => value !== action.filter),
           isActive: true
         }
       };
@@ -54,7 +54,7 @@ const staticFiltersReducer = (
         expenseTypeFilter: {
           ...state.expenseTypeFilter,
           filterValue: [],
-          isActive: true
+          isActive: false
         }
       };
     default:
