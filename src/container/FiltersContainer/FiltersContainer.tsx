@@ -13,6 +13,7 @@ import {
   startAddCategoryTypeFilter,
   startClearCategoryTypeFilter
 } from '../../redux/actions/staticFiltersActions';
+import { DateFilter } from '../../components/Filters/DateFilter';
 
 const defaultExpenseType: ExpenseTypeType = {
   id: 0,
@@ -76,6 +77,10 @@ export const FiltersContainer: React.FC = () => {
 
   return (
     <div className="FiltersContainer">
+      <div className="FiltersContainer__group">
+        <Label classNames="FiltersContainer__group__label">Select month:</Label>
+        <DateFilter />
+      </div>
       <div className="FiltersContainer__group">
         <Label classNames="FiltersContainer__group__label">Expense type:</Label>
         <Select
