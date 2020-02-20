@@ -5,9 +5,12 @@ import {
   CLEAR_CATEGORY_TYPE_FILTER,
   ADD_CATEGORY_TYPE_FILTER,
   REMOVE_CATEGORY_TYPE_FILTER,
-  staticFiltersActionType
-} from '../../types/staticFiltersActions';
-import { FILTERS_NAME } from '../../types';
+  staticFiltersActionType,
+  ADD_DATE_TYPE_FILTER,
+  REMOVE_DATE_TYPE_FILTER,
+  CLEAR_DATE_TYPE_FILTER
+} from "../../types/staticFiltersActions";
+import { FILTERS_NAME } from "../../types";
 
 type FilterType = {
   filterName: string;
@@ -18,6 +21,7 @@ type FilterType = {
 interface IStaticFiltersState {
   expenseTypeFilter: FilterType;
   expenseCategoryFilter: FilterType;
+  expenseDateFilter: FilterType;
 }
 
 const staticFiltersDefaultState: IStaticFiltersState = {
@@ -28,6 +32,11 @@ const staticFiltersDefaultState: IStaticFiltersState = {
   },
   expenseCategoryFilter: {
     filterName: FILTERS_NAME.CATEGORY_TYPE,
+    filterValue: [],
+    isActive: false
+  },
+  expenseDateFilter: {
+    filterName: FILTERS_NAME.DATE_TYPE,
     filterValue: [],
     isActive: false
   }
@@ -53,7 +62,9 @@ const staticFiltersReducer = (
         ...state,
         expenseTypeFilter: {
           ...state.expenseTypeFilter,
-          filterValue: state.expenseTypeFilter.filterValue.filter(value => value !== action.filter),
+          filterValue: state.expenseTypeFilter.filterValue.filter(
+            value => value !== action.filter
+          ),
           isActive: true
         }
       };
@@ -71,7 +82,6 @@ const staticFiltersReducer = (
         ...state,
         expenseCategoryFilter: {
           ...state.expenseCategoryFilter,
-          //filterValue: [...state.expenseCategoryFilter.filterValue, action.filter],
           filterValue: [action.filter],
           isActive: true
         }
@@ -81,7 +91,9 @@ const staticFiltersReducer = (
         ...state,
         expenseCategoryFilter: {
           ...state.expenseCategoryFilter,
-          filterValue: state.expenseCategoryFilter.filterValue.filter(value => value !== action.filter),
+          filterValue: state.expenseCategoryFilter.filterValue.filter(
+            value => value !== action.filter
+          ),
           isActive: true
         }
       };
@@ -90,6 +102,35 @@ const staticFiltersReducer = (
         ...state,
         expenseCategoryFilter: {
           ...state.expenseCategoryFilter,
+          filterValue: [],
+          isActive: false
+        }
+      };
+    case ADD_DATE_TYPE_FILTER:
+      return {
+        ...state,
+        expenseDateFilter: {
+          ...state.expenseDateFilter,
+          filterValue: [action.filter],
+          isActive: true
+        }
+      };
+    case REMOVE_DATE_TYPE_FILTER:
+      return {
+        ...state,
+        expenseDateFilter: {
+          ...state.expenseDateFilter,
+          filterValue: state.expenseDateFilter.filterValue.filter(
+            value => value !== action.filter
+          ),
+          isActive: true
+        }
+      };
+    case CLEAR_DATE_TYPE_FILTER:
+      return {
+        ...state,
+        expenseDateFilter: {
+          ...state.expenseDateFilter,
           filterValue: [],
           isActive: false
         }

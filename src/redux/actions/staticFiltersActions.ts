@@ -4,11 +4,14 @@ import {
   REMOVE_EXPENSE_TYPE_FILTER,
   ADD_CATEGORY_TYPE_FILTER,
   CLEAR_CATEGORY_TYPE_FILTER,
-  REMOVE_CATEGORY_TYPE_FILTER
-} from '../../types/staticFiltersActions';
-import { AppActions } from '../../types/appActions';
-import { AppState } from '../configureStore';
-import { Dispatch } from 'redux';
+  REMOVE_CATEGORY_TYPE_FILTER,
+  ADD_DATE_TYPE_FILTER,
+  REMOVE_DATE_TYPE_FILTER,
+  CLEAR_DATE_TYPE_FILTER
+} from "../../types/staticFiltersActions";
+import { AppActions } from "../../types/appActions";
+import { AppState } from "../configureStore";
+import { Dispatch } from "redux";
 
 // Actions
 // ExpenseTypeFilter
@@ -39,6 +42,21 @@ export const removeCategoryTypeFilter = (filter: string): AppActions => ({
 
 export const clearCategoryTypeFilter = (): AppActions => ({
   type: CLEAR_CATEGORY_TYPE_FILTER
+});
+
+// DateTypeFilter
+export const addDateTypeFilter = (filter: string): AppActions => ({
+  type: ADD_DATE_TYPE_FILTER,
+  filter
+});
+
+export const removeDateTypeFilter = (filter: string): AppActions => ({
+  type: REMOVE_DATE_TYPE_FILTER,
+  filter
+});
+
+export const clearDateTypeFilter = (): AppActions => ({
+  type: CLEAR_DATE_TYPE_FILTER
 });
 
 //Dispatch actions
@@ -75,5 +93,23 @@ export const startRemoveCategoryTypeFilter = (filter: string) => {
 export const startClearCategoryTypeFilter = () => {
   return (dispatch: Dispatch<AppActions>, getState: () => AppState) => {
     dispatch(clearCategoryTypeFilter());
+  };
+};
+
+// DateTypeFilter
+export const startAddDateTypeFilter = (filter: string) => {
+  return (dispatch: Dispatch<AppActions>, getState: () => AppState) => {
+    dispatch(addDateTypeFilter(filter));
+  };
+};
+
+export const startRemoveDateTypeFilter = (filter: string) => {
+  return (dispatch: Dispatch<AppActions>, getState: () => AppState) => {
+    dispatch(removeDateTypeFilter(filter));
+  };
+};
+export const startClearDateTypeFilter = () => {
+  return (dispatch: Dispatch<AppActions>, getState: () => AppState) => {
+    dispatch(clearDateTypeFilter());
   };
 };

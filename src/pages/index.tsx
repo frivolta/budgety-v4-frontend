@@ -3,6 +3,7 @@ import React, { useEffect, useCallback, useState } from "react";
 import {useSelector} from 'react-redux'
 import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
+import moment from 'moment'
 
 import { DashboardContainer } from "../container/DashboardContainer/DashboardContainer";
 import { ExpenseCard } from "../components/Card/ExpenseCard";
@@ -55,9 +56,14 @@ export const IndexPage: React.FC = () => {
     if(filters.expenseCategoryFilter.isActive){
       filteredExpenses = filteredExpenses.filter(filteredExpense=>filters.expenseCategoryFilter.filterValue.includes(filteredExpense.category))
     }
+
+    if (filters.expenseDateFilter.isActive){
+      filteredExpenses = filteredExpenses.filter(filteredExpense=> moment(filters.expenseDateFilter.filterValue[0]).isSame(filteredExpense.date, 'month'))
+    }
+
     // 3) return filteredExpenses
     return filteredExpenses;
-  }, [setExpenses, filters.expenseTypeFilter.filterValue, filters.expenseTypeFilter.isActive, filters.expenseCategoryFilter.filterValue, filters.expenseCategoryFilter.isActive])
+  }, [setExpenses, filters.expenseTypeFilter.filterValue, filters.expenseTypeFilter.isActive, filters.expenseCategoryFilter.filterValue, filters.expenseCategoryFilter.isActive, filters.expenseDateFilter.filterValue, filters.expenseDateFilter.isActive])
 
 
   useEffect(() => {

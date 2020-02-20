@@ -23,8 +23,9 @@ export type CategoryType = {
 
 // Filter
 export enum FILTERS_NAME {
-  EXPENSE_TYPE = 'EXPENSE_TYPE',
-  CATEGORY_TYPE = 'CATEGORY_TYPE'
+  EXPENSE_TYPE = "EXPENSE_TYPE",
+  CATEGORY_TYPE = "CATEGORY_TYPE",
+  DATE_TYPE = "DATE_TYPE"
 }
 
 export type FilterType = {
