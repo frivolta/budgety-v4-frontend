@@ -1,10 +1,12 @@
-import { createStore, combineReducers, compose, applyMiddleware } from 'redux';
-import { staticFiltersReducer } from './reducers/staticFiltersReducer';
-import thunk, { ThunkMiddleware } from 'redux-thunk';
-import { AppActions } from '../types/appActions';
+import { createStore, combineReducers, compose, applyMiddleware } from "redux";
+import { staticFiltersReducer } from "./reducers/staticFiltersReducer";
+import { expensesReducer } from "./reducers/expensesReducer";
+import thunk, { ThunkMiddleware } from "redux-thunk";
+import { AppActions } from "../types/appActions";
 
 export const rootReducer = combineReducers({
-  filters: staticFiltersReducer
+  filters: staticFiltersReducer,
+  expenses: expensesReducer
 });
 
 export type AppState = ReturnType<typeof rootReducer>;
@@ -19,5 +21,7 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 export const store = createStore(
   rootReducer,
-  composeEnhancers(applyMiddleware(thunk as ThunkMiddleware<AppState, AppActions>))
+  composeEnhancers(
+    applyMiddleware(thunk as ThunkMiddleware<AppState, AppActions>)
+  )
 );

@@ -1,3 +1,5 @@
+import { type } from "os";
+
 // Expense
 export type ExpenseTypeType = {
   id: number;
@@ -6,6 +8,7 @@ export type ExpenseTypeType = {
 };
 
 export type ExpenseType = {
+  id: string;
   description: string;
   amount: number;
   category: string;

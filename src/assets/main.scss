@@ -72,6 +72,13 @@ input {
   text-align: center;
 }
 
+.no-margin{
+  margin-bottom: 0!important;
+  margin-top: 0!important;
+  margin-right: 0!important;
+  margin-left: 0!important;
+}
+
 //Fonts
 .strong {
   font-weight: 500 !important;
@@ -85,6 +92,7 @@ input {
   white-space: nowrap;
   overflow: hidden;
 }
+
 
 //Display
 .hidden-sm-up {
@@ -104,12 +112,14 @@ input {
 @import 'components/Label';
 @import 'components/Heading';
 @import 'components/Toaster';
-@import 'components/Header.scss';
-@import 'components/Footer.scss';
-@import 'components/Main.scss';
-@import 'components/Sidenav.scss';
-@import 'components/Icon.scss';
-@import 'components/Menu.scss';
-@import 'components/Select.scss';
-@import 'components/Calendar.scss';
-@import 'components/LinearLoader.scss';
+@import 'components/Header';
+@import 'components/Footer';
+@import 'components/Main';
+@import 'components/Sidenav';
+@import 'components/Icon';
+@import 'components/Menu';
+@import 'components/Select';
+@import 'components/Calendar';
+@import 'components/LinearLoader';
+@import 'components/DateFilter';
+@import 'components/FiltersManagementBar';
