@@ -9,6 +9,7 @@ export const createExpenseObject = (
   date: string
 ): ExpenseType => {
   const expenseObject = {
+    id: 'none',
     description: description !== '' ? description : 'Generic',
     amount: amount || 0,
     category: category || 'Uncategorized',

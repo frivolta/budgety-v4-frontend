@@ -8,19 +8,12 @@ import {
 import { useMutation } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 
-export const DELETE_EXPENSE_QUERY = gql`
-  query Me {
-    me {
-      expenses {
-        id
-        amount
-        type
-        description
-        date
-        category
-      }
+export const DELETE_EXPENSE_MUTATION = gql`
+  mutation DeleteExpenseMutation($id: String!) {
+    deleteExpense(id: $id) {
+      id,
     }
-  }
+}
 `;
 
 export const expenseType = {
@@ -40,6 +33,15 @@ interface IExpenseCard {
 
 export const ExpenseCard: React.FC<IExpenseCard> = props => {
   const [isEditMode, setIsEditMode] = useState<boolean>(false);
+  const [deleteExpenseMutation, {data}] = useMutation(DELETE_EXPENSE_MUTATION)
+
+  const handleDeleteExpense = async(id: string) =>{
+    try{
+      await deleteExpenseMutation({ variables: { id }})
+    }catch(err){
+      console.error("Handle delete expense mutation error: ",err)
+    }
+  }
 
   return (
     <StdCard
@@ -83,7 +85,7 @@ export const ExpenseCard: React.FC<IExpenseCard> = props => {
           <span className="no-wrap">Delete this expense?</span>
           <span
             className="StdCard__content__dialog__action"
-            onClick={() => console.log("Id: ", props.id)}
+            onClick={() => handleDeleteExpense(props.id)}
           >
             Yes, delete
           </span>
