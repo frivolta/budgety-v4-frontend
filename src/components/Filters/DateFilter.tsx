@@ -9,15 +9,6 @@ export const DateFilter: React.FC = () => {
   const dispatch = useDispatch();
 
   const _filterByMonth = useCallback(() => {
-    /* const minDate = month
-      .clone()
-      .startOf("month")
-      .format("MMM YYYY");
-    const maxDate = month
-      .clone()
-      .endOf("month")
-      .format("MMM YYYY"); */
-
     filterIsActive && dispatch(addDateTypeFilter(month.toString()));
   }, [month]);
 
@@ -25,7 +16,6 @@ export const DateFilter: React.FC = () => {
     _filterByMonth();
   }, [month, _filterByMonth, filterIsActive]);
 
-  // those should be async
   const _decreaseMonth = (): void => {
     !filterIsActive && setFilterIsActive(true);
     setMonth(month.clone().subtract(1, "month"));
@@ -36,12 +26,14 @@ export const DateFilter: React.FC = () => {
   };
 
   return (
-    <h2>
-      <span onClick={_decreaseMonth}>{"< "}</span>
-      <span>{month.format("MMM YYYY")}</span>
-      <span onClick={_increaseMonth}>
+    <div className="DateFilter">
+      <span onClick={_decreaseMonth} className="DateFilter__button">
+        {"< "}
+      </span>
+      <span className="DateFilter__value">{month.format("MMM YYYY")}</span>
+      <span onClick={_increaseMonth} className="DateFilter__button">
         {month.clone().add(1, "hour") > moment() ? "" : " >"}
       </span>
-    </h2>
+    </div>
   );
 };

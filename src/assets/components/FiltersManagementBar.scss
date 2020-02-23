@@ -1,0 +1,34 @@
+.FiltersManagementBar{
+  display: flex;
+  width: 100%;
+  justify-content: flex-start;
+  align-items: flex-start;
+  font-family: $poppins;
+  font-size: $small;
+  color: $primaryColor;
+
+  @include breakpoint(xs){
+    flex-direction: column;
+  }
+  
+  &__item{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: $small;
+    font-weight: 500;
+    color: $darkPrimary;
+    padding: 0 $base;
+    text-transform: uppercase;
+
+    &__remove{
+      margin-left: $base/2;
+      cursor: pointer;
+      color: $primaryColor;
+    }
+
+    @include breakpoint(xs){
+      padding-left: 0;
+    }
+  }
+}

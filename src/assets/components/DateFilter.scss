@@ -1,0 +1,13 @@
+.DateFilter{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: $poppins;
+  margin-top: $base;
+
+  &__button{
+    color: $primaryColor;
+    font-size: $base+6;
+    cursor: pointer;
+  }
+}

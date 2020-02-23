@@ -138,5 +138,19 @@
         margin-bottom: 4px;
       }
     }
+    &__dialog{
+      grid-area: description;
+      display: flex;
+    justify-content: center;
+    line-height: 24px;
+    font-size: 16px;
+    line-height: auto;
+    flex-direction: column;
+    text-align: center;
+    &__action{
+      cursor: pointer;
+      color: $altColor!important;
+    }
+    }
   }
 }
