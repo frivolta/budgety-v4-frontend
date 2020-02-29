@@ -1,5 +1,9 @@
 import React, { useState } from "react";
 import { StdCard } from "./StdCard";
+import { useDispatch} from 'react-redux'
+import {startAddFilteredExpenses} from '../../redux/actions/expenseActions'
+
+
 import {
   convertAmountToCurrency,
   convertDateToReadable
@@ -7,6 +11,8 @@ import {
 
 import { useMutation } from "@apollo/react-hooks";
 import gql from "graphql-tag";
+import Spinner from 'react-svg-spinner';
+import { GET_ME_EXPENSES_QUERY, GET_EXPENSES_BY_USER_QUERY } from '../ExpensesWidget/ExpensesWidget';
 
 export const DELETE_EXPENSE_MUTATION = gql`
   mutation DeleteExpenseMutation($id: String!) {
@@ -33,11 +39,33 @@ interface IExpenseCard {
 
 export const ExpenseCard: React.FC<IExpenseCard> = props => {
   const [isEditMode, setIsEditMode] = useState<boolean>(false);
-  const [deleteExpenseMutation, {data}] = useMutation(DELETE_EXPENSE_MUTATION)
+  const dispatch = useDispatch();
+  const [deleteExpenseMutation, {loading, data}] = useMutation(DELETE_EXPENSE_MUTATION, {
+/*     // 1)
+    update: (cache, {data})=>{
+      try {
+        const deletedId = data.deleteExpense.id;
+        let {getExpenses}: any = cache.readQuery({query: GET_EXPENSES_BY_USER_QUERY})
+        let newExpenses = getExpenses.filter((expense:any)=>expense.id!==deletedId)
+        console.log('get', getExpenses)
+        // 2)
+        cache.writeQuery({
+          query: GET_EXPENSES_BY_USER_QUERY,
+          data: {
+            getExpenses:newExpenses,
+          }
+        })
+      }catch(err){
+        console.error('Error updating cache: ', err)
+      }
+    }, */
+})
+
 
   const handleDeleteExpense = async(id: string) =>{
     try{
       await deleteExpenseMutation({ variables: { id }})
+      setIsEditMode(false)
     }catch(err){
       console.error("Handle delete expense mutation error: ",err)
     }
@@ -51,11 +79,11 @@ export const ExpenseCard: React.FC<IExpenseCard> = props => {
           : "StdCard--secondary"
       }
     >
+    {!isEditMode && (
       <div
         className="StdCard__content__data"
         onDoubleClick={() => setIsEditMode(!isEditMode)}
       >
-        {!isEditMode && (
           <>
             <div
               className="StdCard__content__category"
@@ -70,14 +98,15 @@ export const ExpenseCard: React.FC<IExpenseCard> = props => {
               {convertDateToReadable(props.date)}
             </div>
           </>
-        )}
-      </div>
+          </div>
+          )}
       {!isEditMode && (
         <div className="StdCard__content__amount">
           <span>{convertAmountToCurrency(props.amount, props.type)}</span>
         </div>
       )}
-      {isEditMode && (
+      {isEditMode && loading && <div className="StdCard__content__data--center"><Spinner color="#007aff" thickness={3} speed="slow" size="48px" /></div>}
+      {isEditMode && !loading &&(
         <div
           className="StdCard__content__dialog no-margin"
           onDoubleClick={() => setIsEditMode(!isEditMode)}

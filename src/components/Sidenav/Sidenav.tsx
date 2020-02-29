@@ -7,17 +7,10 @@ import { useSidenavValue } from '../../context/useSidenavValue';
 import { FiltersContainer } from '../../container/FiltersContainer/FiltersContainer';
 
 //import { MenuItemList } from '../Menu/MenuItemList'
-import { startAddExpenseTypeFilter } from '../../redux/actions/staticFiltersActions';
-import { useDispatch } from 'react-redux';
 
 export const Sidenav = () => {
   const { sidenavIsOpen, setSidenavIsOpen } = useSidenavValue();
-  const dispatch = useDispatch();
   let history = useHistory();
-
-  const disp = async () => {
-    await dispatch(startAddExpenseTypeFilter('pippo'));
-  };
 
   return (
     <aside className={sidenavIsOpen ? `Sidenav Sidenav--isActive` : `Sidenav`}>
