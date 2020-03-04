@@ -3,7 +3,7 @@ import gql from 'graphql-tag';
 import moment from 'moment';
 import { useMutation } from 'react-apollo';
 import { toasterInfo, toasterError } from '../utils/showToaster';
-import { convertToCurrency } from '../utils/format';
+import { convertToCurrency, convertCurrencyToAmount } from '../utils/format';
 import { createExpenseObject } from '../utils/expenses';
 import { DashboardContainer } from '../container/DashboardContainer/DashboardContainer';
 import Calendar from 'react-calendar';
@@ -15,6 +15,8 @@ import { Button } from '../components/Button/Button';
 import { expenseTypeData, categoryData } from '../data/expensesData';
 import { SUCCESS, ERRORS } from '../utils/messages';
 import { ErrorMessage } from '../components/ErrorMessage/ErrorMessage';
+import { CategoryType } from '../types';
+import { getCategoriesByExpenseType } from '../utils/categories';
 
 const CREATE_EXPENSE_MUTATION = gql`
   mutation CreateExpense($type: String!, $description: String!, $date: String!, $amount: Float!, $category: String!) {
@@ -32,20 +34,31 @@ export const AddExpensePage: React.FC = () => {
   const [description, setDescription] = useState<string>('');
   const [amount, setAmount] = useState<string>('€ 0');
   const [category, setCategory] = useState<string>(categoryData[0].value);
-  const [expenseType, setExpenseType] = useState<string>('');
+  const [categoriesByExpenseType, setCategoriesByExpenseType] = useState<CategoryType[]>(categoryData);
+  const [expenseType, setExpenseType] = useState<string>('expense');
   const [startDate, setStartDate] = useState<Date>(new Date());
 
   const convertToCurrencyOnBlur = (amountToConvert: string) => setAmount(`€ ${convertToCurrency(amountToConvert)}`);
+
+  React.useEffect(
+    () => {
+      const expenseTypeByValue = expenseTypeData.filter(type => type.value === expenseType);
+      const categoriesByExpenseType = getCategoriesByExpenseType(expenseTypeByValue[0]);
+      setCategoriesByExpenseType(categoriesByExpenseType);
+    },
+    [expenseType]
+  );
 
   const handleSubmit = async () => {
     try {
       const expenseObject = createExpenseObject(
         description,
-        parseFloat(amount.replace('€', '').trim()),
+        convertCurrencyToAmount(amount),
         category,
         expenseType,
         moment(startDate).utc().format()
       );
+      console.log(expenseObject);
       await createExpense({ variables: expenseObject });
       toasterInfo(SUCCESS.addExpenseSuccess);
     } catch (error) {
@@ -85,7 +98,7 @@ export const AddExpensePage: React.FC = () => {
             handleChange={e => setAmount(e.target.value)}
           />
           <Select
-            options={categoryData}
+            options={categoriesByExpenseType}
             name="category"
             placeholder="Category"
             handleChange={e => setCategory(e.target.value)}

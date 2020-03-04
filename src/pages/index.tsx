@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { useQuery } from '@apollo/react-hooks';
-import { GET_ME_EXPENSES_QUERY, GET_EXPENSES_BY_USER_QUERY } from '../components/ExpensesWidget/ExpensesWidget';
+import { GET_EXPENSES_BY_USER_QUERY } from '../components/ExpensesWidget/ExpensesWidget';
 
 import { DashboardContainer } from '../container/DashboardContainer/DashboardContainer';
 import { LinearLoader } from '../components/LinearLoader/LinearLoader';

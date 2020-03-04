@@ -19,9 +19,14 @@ export const convertToCurrency = (value: string) => {
   return numeral(value).format('€ 0,0[.]00');
 };
 
+export const convertCurrencyToAmount = (currency: string) => {
+  return numeral(currency).value();
+};
+
 export const convertAmountToCurrency = (value: number, expenseName: string) => {
   const typeSymbol = expenseName === expenseType.INCOME ? '+' : '-';
-  const formattedAmount = `${typeSymbol} ${value.toFixed(2)} €`;
+  const covertedToCurrency = parseFloat(convertToCurrency(value.toString())).toFixed(2);
+  const formattedAmount = `${typeSymbol} ${covertedToCurrency} €`;
   return formattedAmount;
 };
 

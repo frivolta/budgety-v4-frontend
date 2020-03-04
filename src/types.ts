@@ -17,6 +17,7 @@ export type ExpenseType = {
 // Category
 export type CategoryType = {
   id: number;
+  type: ExpenseTypeType;
   value: string;
   caption: string;
   color: string;

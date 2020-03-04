@@ -23,6 +23,7 @@ const defaultExpenseType: ExpenseTypeType = {
 
 const defaultCategoryType: CategoryType = {
   id: 0,
+  type: defaultExpenseType,
   value: 'default',
   caption: 'No filter',
   color: 'color'
@@ -35,14 +36,6 @@ export const FiltersContainer: React.FC = () => {
   const dispatch = useDispatch();
   const [expenseTypeFilter, setExpenseTypeFilter] = useState<ExpenseTypeType>(defaultExpenseType);
   const [categoryTypeFilter, setCategoryTypeFilter] = useState<CategoryType>(defaultCategoryType);
-
-  useEffect(
-    () => {
-      dispatchExpenseTypeFilter(expenseTypeFilter);
-      dispatchCategoryTypeFilter(categoryTypeFilter);
-    },
-    [expenseTypeFilter, categoryTypeFilter]
-  );
 
   // Set the right expense type, filtering value to the state
   const setExpenseTypeByValue = (value: string) => {
@@ -58,22 +51,36 @@ export const FiltersContainer: React.FC = () => {
   };
 
   // Expense type dispatcher when expenseType changes
-  const dispatchExpenseTypeFilter = (expenseType: ExpenseTypeType) => {
-    if (expenseType.value !== 'default') {
-      dispatch(startAddExpenseTypeFilter(expenseType.value));
-    } else {
-      dispatch(startClearExpenseTypeFilter());
-    }
-  };
+  const dispatchExpenseTypeFilter = React.useCallback(
+    (expenseType: ExpenseTypeType) => {
+      if (expenseType.value !== 'default') {
+        dispatch(startAddExpenseTypeFilter(expenseType.value));
+      } else {
+        dispatch(startClearExpenseTypeFilter());
+      }
+    },
+    [dispatch]
+  );
 
   // Category type dispatcher when expenseType changes
-  const dispatchCategoryTypeFilter = (categoryType: CategoryType) => {
-    if (categoryType.value !== 'default') {
-      dispatch(startAddCategoryTypeFilter(categoryType.value));
-    } else {
-      dispatch(startClearCategoryTypeFilter());
-    }
-  };
+  const dispatchCategoryTypeFilter = React.useCallback(
+    (categoryType: CategoryType) => {
+      if (categoryType.value !== 'default') {
+        dispatch(startAddCategoryTypeFilter(categoryType.value));
+      } else {
+        dispatch(startClearCategoryTypeFilter());
+      }
+    },
+    [dispatch]
+  );
+
+  useEffect(
+    () => {
+      dispatchExpenseTypeFilter(expenseTypeFilter);
+      dispatchCategoryTypeFilter(categoryTypeFilter);
+    },
+    [expenseTypeFilter, categoryTypeFilter, dispatchCategoryTypeFilter, dispatchExpenseTypeFilter]
+  );
 
   return (
     <div className="FiltersContainer">

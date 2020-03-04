@@ -1,8 +1,5 @@
 import React, { useState } from "react";
 import { StdCard } from "./StdCard";
-import { useDispatch} from 'react-redux'
-import {startAddFilteredExpenses} from '../../redux/actions/expenseActions'
-
 
 import {
   convertAmountToCurrency,
@@ -12,10 +9,10 @@ import {
 import { useMutation } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import Spinner from 'react-svg-spinner';
-import { GET_ME_EXPENSES_QUERY, GET_EXPENSES_BY_USER_QUERY } from '../ExpensesWidget/ExpensesWidget';
+import {  GET_EXPENSES_BY_USER_QUERY } from '../ExpensesWidget/ExpensesWidget';
 
 export const DELETE_EXPENSE_MUTATION = gql`
-  mutation DeleteExpenseMutation($id: String!) {
+  mutation DeleteExpenseMutation($id: ID!) {
     deleteExpense(id: $id) {
       id,
     }
@@ -39,27 +36,24 @@ interface IExpenseCard {
 
 export const ExpenseCard: React.FC<IExpenseCard> = props => {
   const [isEditMode, setIsEditMode] = useState<boolean>(false);
-  const dispatch = useDispatch();
-  const [deleteExpenseMutation, {loading, data}] = useMutation(DELETE_EXPENSE_MUTATION, {
-/*     // 1)
-    update: (cache, {data})=>{
-      try {
-        const deletedId = data.deleteExpense.id;
-        let {getExpenses}: any = cache.readQuery({query: GET_EXPENSES_BY_USER_QUERY})
-        let newExpenses = getExpenses.filter((expense:any)=>expense.id!==deletedId)
-        console.log('get', getExpenses)
-        // 2)
-        cache.writeQuery({
-          query: GET_EXPENSES_BY_USER_QUERY,
-          data: {
-            getExpenses:newExpenses,
-          }
-        })
-      }catch(err){
-        console.error('Error updating cache: ', err)
+  const [deleteExpenseMutation, {loading}] = useMutation(
+    DELETE_EXPENSE_MUTATION, 
+    {
+      update(cache, {data}) {
+        console.log(data)
+
+        // Deep clone
+        let getExpensesQuery:any =  cache.readQuery({
+          query: GET_EXPENSES_BY_USER_QUERY
+        });
+        
+        // Filter the arr
+         getExpensesQuery.getExpenses.filter((expense:any)=>expense.id !==data.deleteExpense.id)
+
+        cache.writeQuery({query: GET_EXPENSES_BY_USER_QUERY, data:{...getExpensesQuery}})
       }
-    }, */
-})
+    }
+  )
 
 
   const handleDeleteExpense = async(id: string) =>{
