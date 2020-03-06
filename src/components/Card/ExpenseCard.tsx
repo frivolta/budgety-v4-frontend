@@ -9,7 +9,7 @@ import {
 import { useMutation } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import Spinner from 'react-svg-spinner';
-import {  GET_EXPENSES_BY_USER_QUERY } from '../ExpensesWidget/ExpensesWidget';
+import {  GET_EXPENSES_BY_USER_QUERY } from '../Widgets/ExpensesWidget/ExpensesWidget';
 
 export const DELETE_EXPENSE_MUTATION = gql`
   mutation DeleteExpenseMutation($id: ID!) {

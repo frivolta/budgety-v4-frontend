@@ -1,0 +1,9 @@
+.WidgetContainer {
+  display: grid;
+  grid-template-columns: 1fr;
+  column-gap: $base;
+  margin: $base *2;
+  @include breakpoint('sm') {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

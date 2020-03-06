@@ -1,0 +1,42 @@
+.ExpenseCountWidget {
+  padding: $base;
+  span {
+    display: block;
+    font-size: $display;
+    line-height: $displayLineHeight;
+    width: 100%;
+    text-align: center;
+    margin-top: $base/2;
+  }
+
+  &__caption {
+    width: 100%;
+    text-align: center;
+    font-size: $medium;
+    line-height: $baseLineHeight;
+    &--positive {
+      span {
+        color: $primaryColor;
+      }
+    }
+    &--negative {
+      span {
+        color: $altColor;
+      }
+    }
+  }
+
+  &--primary {
+    background-color: $altColor;
+    .ExpenseCountWidget__caption {
+      color: $lightPrimary !important;
+    }
+  }
+
+  &--alt {
+    background-color: $primaryColor;
+    .ExpenseCountWidget__caption {
+      color: $lightPrimary !important;
+    }
+  }
+}

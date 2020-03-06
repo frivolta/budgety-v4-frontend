@@ -4,15 +4,15 @@ import {useSelector, useDispatch} from 'react-redux'
 import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 
-import { ExpenseCard } from "../Card/ExpenseCard";
-import { StdCard } from "../Card/StdCard";
-import {FiltersManagementBar} from '../FiltersManagementBar/FiltersManagementBar'
-import { ErrorMessage } from "../ErrorMessage/ErrorMessage";
-import { ExpenseType } from "../../types";
+import { ExpenseCard } from "../../Card/ExpenseCard";
+import { StdCard } from "../../Card/StdCard";
+import {FiltersManagementBar} from '../../FiltersManagementBar/FiltersManagementBar'
+import { ErrorMessage } from "../../ErrorMessage/ErrorMessage";
+import { ExpenseType } from "../../../types";
 
-import {startAddFilteredExpenses} from '../../redux/actions/expenseActions'
-import { AppState } from '../../redux/configureStore';
-import { defineFilteredExpenses } from '../../utils/filters/filters.helper';
+import {startAddFilteredExpenses} from '../../../redux/actions/expenseActions'
+import { AppState } from '../../../redux/configureStore';
+import { defineFilteredExpenses } from '../../../utils/filters/filters.helper';
 
 export const GET_ME_EXPENSES_QUERY = gql`
   query Me {
