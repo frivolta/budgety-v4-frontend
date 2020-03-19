@@ -1,26 +1,45 @@
-export const setToken = (token: string) => {
-  localStorage.removeItem('auth-token');
-  localStorage.setItem('auth-token', token);
+import { IApiUserDetails, ITokens } from "../../types";
+
+// Types
+interface ISetUserToLocalStorage {
+  (userDetails: IApiUserDetails): void;
+}
+
+export const setUserToLocalStorage: ISetUserToLocalStorage = userDetails => {
+  localStorage.removeItem("user");
+  localStorage.removeItem("tokens");
+  localStorage.setItem("user", JSON.stringify(userDetails.user));
+  localStorage.setItem("tokens", JSON.stringify(userDetails.tokens));
 };
 
-export const asyncSetToken = (token: string) =>
-  new Promise((resolve, reject) => {
-    try {
-      localStorage.removeItem('auth-token');
-      localStorage.setItem('auth-token', token);
-      resolve(true);
-    } catch {
-      reject(false);
-    }
-  });
-
-export const setUserId = (token: string) => {
-  localStorage.removeItem('user-id');
-  localStorage.setItem('user-id', token);
+export const removeUserFromLocalStorage = () => {
+  localStorage.removeItem("user");
+  localStorage.removeItem("tokens");
+  window.location.href = "/signin";
 };
 
-export const logout = () => {
-  localStorage.removeItem('user-id');
-  localStorage.removeItem('auth-token');
-  window.location.href = '/signin';
+export const getUser = (): IApiUserDetails | undefined => {
+  const localStorageTokens = localStorage.getItem("tokens");
+  const localStorageuser = localStorage.getItem("user");
+  return localStorageuser && localStorageTokens
+    ? { user: JSON.parse(localStorageuser), tokens: JSON.parse(localStorageTokens) }
+    : undefined;
+};
+
+/**
+ * Verify if user is signed-in.
+ * @summary  get localstorage jwt, verify if it is expired.
+ * @return {boolean} true if user is signed in
+ */
+
+export const verifyAuthUser = (): boolean => {
+  const localStorageTokens = localStorage.getItem("tokens");
+  if (localStorageTokens) {
+    const tokens: ITokens = JSON.parse(localStorageTokens);
+    const currentTime: string = Date.now().toString();
+    const isExpired: boolean = tokens.access.expires < currentTime;
+    isExpired && removeUserFromLocalStorage();
+    return !isExpired;
+  }
+  return false;
 };

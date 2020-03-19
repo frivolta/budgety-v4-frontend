@@ -1,36 +1,32 @@
-import React from 'react';
-import gql from 'graphql-tag';
-import { useQuery } from 'react-apollo';
-import { Label } from '../Label/Label';
+import React from "react";
+import { Label } from "../Label/Label";
+import { useSelector, useDispatch } from "react-redux";
 
-import { useSidenavValue } from '../../context/useSidenavValue';
-import { logout } from '../../utils/authentication/auth.utils';
+import { useSidenavValue } from "../../context/useSidenavValue";
+import { startLogout } from "../../redux/actions/authActions";
 
-export interface IHeader {}
-
-export const ME_QUERY = gql`
-  query {
-    me {
-      email
-    }
-  }
-`;
+import { AppState } from "../../redux/configureStore";
 
 export const Header: React.FC = () => {
   const { sidenavIsOpen, setSidenavIsOpen } = useSidenavValue();
-  const { data, error, loading } = useQuery(ME_QUERY);
+  const { user, isLoggedIn, isLoggingIn } = useSelector((state: AppState) => state.auth);
+  const dispatch = useDispatch();
 
   const headerEmail: any = () => {
-    if(loading && !error){
-      return 'Loading...'
+    if (isLoggingIn) {
+      return "Loading...";
     }
-    if(data && !error){
-      return data?.me?.email
+    if (isLoggedIn && user?.user.email) {
+      return user.user.email;
     }
-    if(error){
-      return 'Please login again'
+    if (!isLoggingIn && !isLoggedIn) {
+      return "Please login again";
     }
-  }
+  };
+
+  const handleLogout = (): void => {
+    dispatch(startLogout());
+  };
 
   return (
     <div className="Header">
@@ -44,11 +40,11 @@ export const Header: React.FC = () => {
       </div>
       <div className="Header__right">
         <Label classNames="mr-1 strong">{headerEmail()}</Label>
-        {!loading &&
-        <div className="Icon Icon__logout" role="button" onClick={logout}>
-          <img src="/images/logout.svg" alt="burger menu" />
-        </div>
-        }
+        {!isLoggingIn && (
+          <div className="Icon Icon__logout" role="button" onClick={() => handleLogout()}>
+            <img src="/images/logout.svg" alt="burger menu" />
+          </div>
+        )}
       </div>
     </div>
   );

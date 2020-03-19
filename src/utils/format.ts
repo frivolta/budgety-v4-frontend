@@ -28,7 +28,7 @@ export const convertAmountToCurrency = (value: number | string, expenseName?: st
   if (expenseName) {
     typeSymbol = expenseName === expenseType.INCOME ? '+' : '-';
   }
-  const covertedToCurrency = parseFloat(convertToCurrency(value.toString())).toFixed(2);
+  const covertedToCurrency = convertToCurrency(value.toString());
   const formattedAmount = `${typeSymbol} ${covertedToCurrency} €`;
   return formattedAmount;
 };

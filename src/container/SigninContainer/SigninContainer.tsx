@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
-import gql from 'graphql-tag';
 import validator from 'validator';
 import { useHistory } from 'react-router-dom';
 
 import { Link } from 'react-router-dom';
-
-import { useMutation } from 'react-apollo';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Card } from '../../components/Card/Card';
 import { Input } from '../../components/Input/Input';
@@ -16,42 +14,37 @@ import { ErrorMessage } from '../../components/ErrorMessage/ErrorMessage';
 
 import { toasterInfo, toasterError } from '../../utils/showToaster';
 import { SUCCESS, ERRORS } from '../../utils/messages';
-import { setUserId, asyncSetToken } from '../../utils/authentication/auth.utils';
 import { formatNetworkErrorMessages } from '../../utils/format';
+import { startLogin } from '../../redux/actions/authActions';
 
-//<Button text="Sign up" handleClick={handleSubmit(onSubmit)} isLoading={mutationLoading} disabled={!!errors.email || !!errors.password || !!errors.confirmPassword}/>
-
-export const SIGNIN_MUTATION = gql`
-  mutation SigninMutation($email: String!, $password: String!) {
-    login(email: $email, password: $password) {
-      token
-      user {
-        id
-      }
-    }
-  }
-`;
+import { AppState } from '../../redux/configureStore';
 
 export const SigninContainer: React.FC = () => {
-  const [login, { loading: mutationLoading, error: mutationError }] = useMutation(SIGNIN_MUTATION);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const { hasErrors, message } = useSelector((state: AppState) => state.auth.error);
+  const { isLoggedIn, user, isLoggingIn } = useSelector((state: AppState) => state.auth);
+  const dispatch = useDispatch();
   let history = useHistory();
+
+  React.useEffect(
+    () => {
+      if (hasErrors) {
+        toasterError(`${ERRORS.signinFailed}: ${message}`);
+        console.error('Signin error: ', message);
+      }
+      if (isLoggedIn && user) {
+        toasterInfo(SUCCESS.signinSuccess);
+        history.push('/expense/add');
+      }
+    },
+    [hasErrors, message, isLoggedIn, user, history]
+  );
 
   const isValidEmail = (validationEmail: string): boolean => validator.isEmail(email);
   const isValidPassword = (validationPassword: string): boolean => !validator.isEmpty(validationPassword);
-
-  const onSubmit = async (email: string, password: string) => {
-    try {
-      const result = await login({ variables: { email: email, password: password } });
-      await asyncSetToken(result.data.login.token);
-      setUserId(result.data.login.user.id);
-      toasterInfo(SUCCESS.signinSuccess);
-      history.push('/expense/add');
-    } catch (err) {
-      await toasterError(ERRORS.signinFailed);
-      console.error('Signin error: ', err);
-    }
+  const onSubmitDispatch = (email: string, password: string) => {
+    dispatch(startLogin(email, password));
   };
 
   return (
@@ -77,13 +70,14 @@ export const SigninContainer: React.FC = () => {
 
         <Button
           text="Login"
-          handleClick={() => onSubmit(email, password)}
+          handleClick={() => onSubmitDispatch(email, password)}
           disabled={!isValidPassword(password) || !isValidEmail(email)}
-          isLoading={mutationLoading}
+          isLoading={isLoggingIn}
         />
-        {mutationError &&
+        {hasErrors &&
+          message &&
           <ErrorMessage data-testid="ErrorMessage">
-            {formatNetworkErrorMessages(mutationError.message)}
+            {formatNetworkErrorMessages(message)}
           </ErrorMessage>}
         <Label>
           Already have an account? <Link to="/signup">Sign up now.</Link>

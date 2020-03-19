@@ -25,9 +25,9 @@ export type CategoryType = {
 
 // Filter
 export enum FILTERS_NAME {
-  EXPENSE_TYPE = 'EXPENSE_TYPE',
-  CATEGORY_TYPE = 'CATEGORY_TYPE',
-  DATE_TYPE = 'DATE_TYPE'
+  EXPENSE_TYPE = "EXPENSE_TYPE",
+  CATEGORY_TYPE = "CATEGORY_TYPE",
+  DATE_TYPE = "DATE_TYPE"
 }
 
 export type FilterType = {
@@ -35,3 +35,36 @@ export type FilterType = {
   filterValue: string[];
   isActive: boolean;
 };
+
+// User
+export interface IUserDetails {
+  email: string;
+  token: string;
+}
+
+export interface ITokens {
+  access: {
+    token: string;
+    expires: string;
+  };
+  refresh: {
+    token: string;
+    expires: string;
+  };
+}
+
+export interface IApiUserDetails {
+  user: {
+    id: string;
+    email: string;
+    name: string;
+    role: string;
+  };
+  tokens: ITokens;
+}
+
+// General Types
+export interface IError {
+  hasErrors: boolean;
+  message: string | undefined;
+}

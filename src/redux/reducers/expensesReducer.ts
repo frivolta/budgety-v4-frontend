@@ -17,10 +17,7 @@ const staticFiltersDefaultState: IExpensesState = {
   filteredExpenses: []
 };
 
-const expensesReducer = (
-  state = staticFiltersDefaultState,
-  action: expenseActionTypes
-): IExpensesState => {
+const expensesReducer = (state = staticFiltersDefaultState, action: expenseActionTypes): IExpensesState => {
   switch (action.type) {
     case ADD_ALL_EXPENSES:
       return {
