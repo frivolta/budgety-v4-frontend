@@ -1,23 +1,24 @@
-import React from 'react';
-import gql from 'graphql-tag'
+import React from "react";
 
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { startSignup } from "../../redux/actions/authActions";
 
-import { useForm } from 'react-hook-form';
-import { useMutation } from 'react-apollo'
-import {SignupSchema} from '../../utils/Signup.schema'
+import { useForm } from "react-hook-form";
+import { SignupSchema } from "../../utils/Signup.schema";
 
-import { Card } from '../../components/Card/Card';
-import { Input } from '../../components/Input/Input';
-import { Button } from '../../components/Button/Button';
-import { Label } from '../../components/Label/Label';
-import { Heading, variation } from '../../components/Heading/Heading';
-import { ErrorMessage } from '../../components/ErrorMessage/ErrorMessage';
+import { Card } from "../../components/Card/Card";
+import { Input } from "../../components/Input/Input";
+import { Button } from "../../components/Button/Button";
+import { Label } from "../../components/Label/Label";
+import { Heading, variation } from "../../components/Heading/Heading";
+import { ErrorMessage } from "../../components/ErrorMessage/ErrorMessage";
 
-import { toasterInfo, toasterError } from '../../utils/showToaster';
-import { SUCCESS, ERRORS } from '../../utils/messages';
-import { formatNetworkErrorMessages } from '../../utils/format';
+import { toasterInfo, toasterError } from "../../utils/showToaster";
+import { SUCCESS, ERRORS } from "../../utils/messages";
+import { formatNetworkErrorMessages } from "../../utils/format";
 
+import { AppState } from "../../redux/configureStore";
 
 type FormData = {
   email: string;
@@ -25,33 +26,32 @@ type FormData = {
   confirmPassword: string;
 };
 
-export const SIGNUP_MUTATION = gql`
-  mutation SignupMutation($email: String!, $password: String!) {
-    signup(email: $email, password: $password) {
-      token
-    }
-  }
-`
-
 export const SignupContainer: React.FC = () => {
-  const { register, errors, handleSubmit} = useForm<FormData>({validationSchema: SignupSchema});
-  const [signUp, { loading: mutationLoading, error: mutationError },] = useMutation(SIGNUP_MUTATION)
+  const { register, errors, handleSubmit } = useForm<FormData>({ validationSchema: SignupSchema });
+  const { isSigninUp } = useSelector((state: AppState) => state.auth);
+  const { hasErrors, message } = useSelector((state: AppState) => state.auth.error);
+  const dispatch = useDispatch();
 
-  const onSubmit = async (values: any) => {
-    try{
-    await signUp({variables: {email: values.email, password: values.password}})
-    toasterInfo(SUCCESS.signupSuccess)
-    }catch(err){
-      await toasterError(ERRORS.signupFailed)
-      console.error('Signup error: ', err)
+  const onSubmit = (values: any) => {
+    if (values?.email && values?.password) {
+      try {
+        dispatch(startSignup(values.email, values.password));
+        toasterInfo(SUCCESS.signupSuccess);
+      } catch (err) {
+        toasterError(ERRORS.signupFailed);
+        console.error("Signup error: ", err);
+      }
     }
   };
 
   return (
     <div className="SignupContainer" data-testid="SignupContainer">
       <Card>
-    <Heading variation={variation.h1}>Fill out the form <br/>and <span className="primary-color">Sign Up.</span></Heading>
-      <Input
+        <Heading variation={variation.h1}>
+          Fill out the form <br />
+          and <span className="primary-color">Sign Up.</span>
+        </Heading>
+        <Input
           name="email"
           register={register}
           placeholder="E-mail"
@@ -76,10 +76,19 @@ export const SignupContainer: React.FC = () => {
           errorMessage={errors.confirmPassword?.message}
         />
 
-        <Button text="Sign up" handleClick={handleSubmit(onSubmit)} isLoading={mutationLoading} disabled={!!errors.email || !!errors.password || !!errors.confirmPassword}/>
-        {mutationError && <ErrorMessage data-testid='ErrorMessage'>{formatNetworkErrorMessages(mutationError.message)}</ErrorMessage> } 
-        <Label>Already have an account? <Link to="/signin" >Sign in.</Link></Label>   
-        </Card>
+        <Button
+          text="Sign up"
+          handleClick={handleSubmit(onSubmit)}
+          isLoading={isSigninUp}
+          disabled={!!errors.email || !!errors.password || !!errors.confirmPassword}
+        />
+        {hasErrors && message && (
+          <ErrorMessage data-testid="ErrorMessage">{formatNetworkErrorMessages(message)}</ErrorMessage>
+        )}
+        <Label>
+          Already have an account? <Link to="/signin">Sign in.</Link>
+        </Label>
+      </Card>
     </div>
   );
 };

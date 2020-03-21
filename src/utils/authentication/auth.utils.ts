@@ -26,6 +26,15 @@ export const getUser = (): IApiUserDetails | undefined => {
     : undefined;
 };
 
+export const getTokenFromLocalStorage = (): string | undefined => {
+  const localStorageTokens = localStorage.getItem("tokens");
+  if (localStorageTokens) {
+    const parsedTokens: ITokens = JSON.parse(localStorageTokens);
+    return parsedTokens.access.token;
+  }
+  return undefined;
+};
+
 /**
  * Verify if user is signed-in.
  * @summary  get localstorage jwt, verify if it is expired.

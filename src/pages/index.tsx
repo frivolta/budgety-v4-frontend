@@ -1,19 +1,22 @@
-import React from 'react';
+import React from "react";
+import { useSelector } from "react-redux";
 
-import { useQuery } from '@apollo/react-hooks';
-import { GET_EXPENSES_BY_USER_QUERY } from '../components/Widgets/ExpensesWidget/ExpensesWidget';
+import { expenseActionsType } from "../types/expensesActionTypes";
 
-import { DashboardContainer } from '../container/DashboardContainer/DashboardContainer';
-import { LinearLoader } from '../components/LinearLoader/LinearLoader';
-import { ExpenseWidget } from '../components/Widgets/ExpensesWidget/ExpensesWidget';
-import { WidgetContainer } from '../container/WidgetContainer/WidgetContainer';
-import { ExpenseCountWidget } from '../components/Widgets/ExpenseCountWidget';
+import { DashboardContainer } from "../container/DashboardContainer/DashboardContainer";
+import { LinearLoader } from "../components/LinearLoader/LinearLoader";
+import { ExpenseWidget } from "../components/Widgets/ExpensesWidget/ExpensesWidget";
+import { WidgetContainer } from "../container/WidgetContainer/WidgetContainer";
+import { ExpenseCountWidget } from "../components/Widgets/ExpenseCountWidget";
+
+import { AppState } from "../redux/configureStore";
 
 export const IndexPage: React.FC = () => {
-  const { loading } = useQuery(GET_EXPENSES_BY_USER_QUERY);
+  const { isLoading, loadingType } = useSelector((state: AppState) => state.expense);
+
   return (
     <DashboardContainer>
-      <LinearLoader isActive={loading} />
+      <LinearLoader isActive={isLoading && loadingType === expenseActionsType.ALL} />
       <WidgetContainer>
         <ExpenseCountWidget />
       </WidgetContainer>

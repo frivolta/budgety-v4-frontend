@@ -1,53 +1,43 @@
-import React, { useState } from 'react';
-import gql from 'graphql-tag';
-import moment from 'moment';
-import { useMutation } from 'react-apollo';
-import { toasterInfo, toasterError } from '../utils/showToaster';
-import { convertToCurrency, convertCurrencyToAmount } from '../utils/format';
-import { createExpenseObject } from '../utils/expenses';
-import { DashboardContainer } from '../container/DashboardContainer/DashboardContainer';
-import Calendar from 'react-calendar';
-import { Heading, variation } from '../components/Heading/Heading';
-import { StdCard } from '../components/Card/StdCard';
-import { Input } from '../components/Input/Input';
-import { Select } from '../components/Select/Select';
-import { Button } from '../components/Button/Button';
-import { expenseTypeData, categoryData } from '../data/expensesData';
-import { SUCCESS, ERRORS } from '../utils/messages';
-import { ErrorMessage } from '../components/ErrorMessage/ErrorMessage';
-import { CategoryType } from '../types';
-import { getCategoriesByExpenseType } from '../utils/categories';
-
-const CREATE_EXPENSE_MUTATION = gql`
-  mutation CreateExpense($type: String!, $description: String!, $date: String!, $amount: Float!, $category: String!) {
-    createExpense(type: $type, description: $description, date: $date, amount: $amount, category: $category) {
-      id
-      amount
-    }
-  }
-`;
-
-// @ToDo: Refetch expense query after mutation
+import React, { useState } from "react";
+import moment from "moment";
+import { toasterInfo, toasterError } from "../utils/showToaster";
+import { convertToCurrency, convertCurrencyToAmount } from "../utils/format";
+import { createExpenseObject } from "../utils/expenses";
+import { DashboardContainer } from "../container/DashboardContainer/DashboardContainer";
+import Calendar from "react-calendar";
+import { Heading, variation } from "../components/Heading/Heading";
+import { StdCard } from "../components/Card/StdCard";
+import { Input } from "../components/Input/Input";
+import { Select } from "../components/Select/Select";
+import { Button } from "../components/Button/Button";
+import { expenseTypeData, categoryData } from "../data/expensesData";
+import { SUCCESS, ERRORS } from "../utils/messages";
+import { ErrorMessage } from "../components/ErrorMessage/ErrorMessage";
+import { CategoryType } from "../types";
+import { getCategoriesByExpenseType } from "../utils/categories";
+import { useDispatch, useSelector } from "react-redux";
+import { startAddExpense } from "../redux/actions/expensesActions";
+import { AppState } from "../redux/configureStore";
+import { expenseActionsType } from "../types/expensesActionTypes";
 
 export const AddExpensePage: React.FC = () => {
-  const [createExpense, { loading, error }] = useMutation(CREATE_EXPENSE_MUTATION);
-  const [description, setDescription] = useState<string>('');
-  const [amount, setAmount] = useState<string>('€ 0');
+  const [description, setDescription] = useState<string>("");
+  const [amount, setAmount] = useState<string>("€ 0");
   const [category, setCategory] = useState<string>(categoryData[0].value);
   const [categoriesByExpenseType, setCategoriesByExpenseType] = useState<CategoryType[]>(categoryData);
-  const [expenseType, setExpenseType] = useState<string>('expense');
+  const [expenseType, setExpenseType] = useState<string>("expense");
   const [startDate, setStartDate] = useState<Date>(new Date());
+  const { isLoading, loadingType } = useSelector((state: AppState) => state.expense);
+  const { hasErrors, message, errorType } = useSelector((state: AppState) => state.expense.error);
 
+  const dispatch = useDispatch();
   const convertToCurrencyOnBlur = (amountToConvert: string) => setAmount(`€ ${convertToCurrency(amountToConvert)}`);
 
-  React.useEffect(
-    () => {
-      const expenseTypeByValue = expenseTypeData.filter(type => type.value === expenseType);
-      const categoriesByExpenseType = getCategoriesByExpenseType(expenseTypeByValue[0]);
-      setCategoriesByExpenseType(categoriesByExpenseType);
-    },
-    [expenseType]
-  );
+  React.useEffect(() => {
+    const expenseTypeByValue = expenseTypeData.filter(type => type.value === expenseType);
+    const categoriesByExpenseType = getCategoriesByExpenseType(expenseTypeByValue[0]);
+    setCategoriesByExpenseType(categoriesByExpenseType);
+  }, [expenseType]);
 
   const handleSubmit = async () => {
     try {
@@ -56,14 +46,16 @@ export const AddExpensePage: React.FC = () => {
         convertCurrencyToAmount(amount),
         category,
         expenseType,
-        moment(startDate).utc().format()
+        moment(startDate)
+          .utc()
+          .format()
       );
-      console.log(expenseObject);
-      await createExpense({ variables: expenseObject });
+      console.log("calling", expenseObject);
+      dispatch(startAddExpense(expenseObject));
       toasterInfo(SUCCESS.addExpenseSuccess);
     } catch (error) {
       await toasterError(ERRORS.addExpenseFailed);
-      console.error('Signup error: ', error);
+      console.error("Signup error: ", error);
     }
   };
 
@@ -105,11 +97,13 @@ export const AddExpensePage: React.FC = () => {
             value={category}
           />
           <Calendar onChange={(date: any) => setStartDate(date)} value={startDate} />
-          <Button text="Add Expense" handleClick={() => handleSubmit()} isLoading={loading} disabled={loading} />
-          {error &&
-            <ErrorMessage>
-              {error.message}
-            </ErrorMessage>}
+          <Button
+            text="Add Expense"
+            handleClick={() => handleSubmit()}
+            isLoading={isLoading && loadingType === expenseActionsType.ADD}
+            disabled={isLoading && loadingType === expenseActionsType.ADD}
+          />
+          {hasErrors && message && errorType === expenseActionsType.ADD && <ErrorMessage>{message}</ErrorMessage>}
         </div>
       </StdCard>
     </DashboardContainer>

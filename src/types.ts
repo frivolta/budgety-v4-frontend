@@ -42,6 +42,11 @@ export interface IUserDetails {
   token: string;
 }
 
+export interface IUserRegistration {
+  email: string;
+  password: string;
+}
+
 export interface ITokens {
   access: {
     token: string;

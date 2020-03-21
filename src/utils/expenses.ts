@@ -1,4 +1,4 @@
-import { ExpenseType } from '../types';
+import { ExpenseType } from "../types";
 
 // Returns an expense object when values are provided
 export const createExpenseObject = (
@@ -9,11 +9,11 @@ export const createExpenseObject = (
   date: string
 ): ExpenseType => {
   const expenseObject = {
-    id: 'none',
-    description: description !== '' ? description : 'Generic',
+    id: "none",
+    description: description !== "" ? description : "Generic",
     amount: amount || 0,
-    category: category || 'Uncategorized',
-    type: type || 'expense',
+    category: category || "Uncategorized",
+    type: type || "expense",
     date: date || Date.now().toString()
   };
   return expenseObject;
