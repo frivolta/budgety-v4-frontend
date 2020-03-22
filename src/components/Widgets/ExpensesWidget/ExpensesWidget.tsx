@@ -11,13 +11,13 @@ import { ExpenseType } from "../../../types";
 import { startAddFilteredExpenses } from "../../../redux/actions/expenseActions";
 import { AppState } from "../../../redux/configureStore";
 import { defineFilteredExpenses } from "../../../utils/filters/filters.helper";
-import { startGetAllExpenses } from "../../../redux/actions/expensesActions";
+import { startGetAllExpenses } from "../../../redux/actions/filteredExpensesActions";
 import { expenseActionsType } from "../../../types/expensesActionTypes";
 import { getCategoryByValue } from "../../../utils/categories";
 
 export const ExpenseWidget: React.FC = () => {
   const filters = useSelector((state: AppState) => state.filters);
-  const stateFilteredExpenses = useSelector((state: AppState) => state.expenses.filteredExpenses);
+  const { filteredExpenses } = useSelector((state: AppState) => state.filteredExpenses);
   const { isLoading, loadingType, expenses, error } = useSelector((state: AppState) => state.expense);
   const dispatch = useDispatch();
 
@@ -32,12 +32,12 @@ export const ExpenseWidget: React.FC = () => {
 
   return (
     <div className="ExpenseWidget">
-      {stateFilteredExpenses && stateFilteredExpenses.length > 0 && <FiltersManagementBar />}
-      {(!stateFilteredExpenses || !stateFilteredExpenses.length) &&
-        !isLoading &&
-        loadingType !== expenseActionsType.ALL && <StdCard>You don't have any expense.</StdCard>}
-      {stateFilteredExpenses &&
-        stateFilteredExpenses.map((expense: ExpenseType, key) => (
+      {filteredExpenses && filteredExpenses.length > 0 && <FiltersManagementBar />}
+      {(!filteredExpenses || !filteredExpenses.length) && !isLoading && loadingType !== expenseActionsType.ALL && (
+        <StdCard>You don't have any expense.</StdCard>
+      )}
+      {filteredExpenses &&
+        filteredExpenses.map((expense: ExpenseType, key) => (
           <ExpenseCard
             key={key}
             id={expense.id}

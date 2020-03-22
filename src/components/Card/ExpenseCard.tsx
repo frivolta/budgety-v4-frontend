@@ -4,7 +4,7 @@ import { StdCard } from "./StdCard";
 import { useSelector, useDispatch } from "react-redux";
 
 import { convertAmountToCurrency, convertDateToReadable } from "../../utils/format";
-import { startDeleteExpense } from "../../redux/actions/expensesActions";
+import { startDeleteExpense } from "../../redux/actions/filteredExpensesActions";
 
 import Spinner from "react-svg-spinner";
 import { AppState } from "../../redux/configureStore";

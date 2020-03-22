@@ -16,7 +16,7 @@ import { ErrorMessage } from "../components/ErrorMessage/ErrorMessage";
 import { CategoryType } from "../types";
 import { getCategoriesByExpenseType } from "../utils/categories";
 import { useDispatch, useSelector } from "react-redux";
-import { startAddExpense } from "../redux/actions/expensesActions";
+import { startAddExpense } from "../redux/actions/filteredExpensesActions";
 import { AppState } from "../redux/configureStore";
 import { expenseActionsType } from "../types/expensesActionTypes";
 
