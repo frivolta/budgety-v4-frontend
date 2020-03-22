@@ -58,7 +58,7 @@
     "yup": "^0.28.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "REACT_APP_HOST=http://localhost:3001/v1 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --collect-coverage",
     "eject": "react-scripts eject"

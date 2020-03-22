@@ -66,7 +66,7 @@ export const startGetAllExpenses: startGetAllExpenses = () => async dispatch => 
   dispatch(expensesLoading(expenseActionsType.ALL, true));
   try {
     const token = `Bearer ${getTokenFromLocalStorage()}`;
-    const request = await axios.get<ExpenseType[]>("http://localhost:3001/v1/expenses", {
+    const request = await axios.get<ExpenseType[]>(`${process.env.REACT_APP_HOST}/expenses`, {
       headers: {
         Authorization: token
       }
@@ -85,7 +85,7 @@ export const startAddExpense: startAddExpense = expense => async dispatch => {
   try {
     const token = `Bearer ${getTokenFromLocalStorage()}`;
     const request = await axios.post<ExpenseType>(
-      `http://localhost:3001/v1/expenses`,
+      `${process.env.REACT_APP_HOST}/expenses`,
       { ...expense },
       {
         headers: {
@@ -106,7 +106,7 @@ export const startDeleteExpense: startDeleteExpense = expenseId => async dispatc
   dispatch(expensesLoading(expenseActionsType.DELETE, true));
   try {
     const token = `Bearer ${getTokenFromLocalStorage()}`;
-    await axios.delete<ExpenseType>(`http://localhost:3001/v1/expenses/${expenseId}`, {
+    await axios.delete<ExpenseType>(`${process.env.REACT_APP_HOST}/expenses/${expenseId}`, {
       headers: {
         Authorization: token
       }

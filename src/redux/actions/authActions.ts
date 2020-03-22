@@ -63,7 +63,7 @@ const signupFailure = (error: AxiosError) => ({
 export const startLogin: IStartLoginSignup = (email, password) => async dispatch => {
   dispatch(loginRequest());
   try {
-    const request = await axios.post<IApiUserDetails>("http://localhost:3001/v1/auth/login", { email, password });
+    const request = await axios.post<IApiUserDetails>(`${process.env.REACT_APP_HOST}/auth/login`, { email, password });
     setUserToLocalStorage(request.data);
     dispatch(loginSuccess(request.data));
   } catch (err) {
@@ -74,7 +74,7 @@ export const startLogin: IStartLoginSignup = (email, password) => async dispatch
 export const startSignup: IStartLoginSignup = (email, password) => async dispatch => {
   try {
     dispatch(signupRequest());
-    await axios.post<IApiUserDetails>("http://localhost:3001/v1/auth/register", { email, password });
+    await axios.post<IApiUserDetails>(`${process.env.REACT_APP_HOST}/auth/register`, { email, password });
     dispatch(signupSuccess());
   } catch (err) {
     dispatch(signupFailure(err));
