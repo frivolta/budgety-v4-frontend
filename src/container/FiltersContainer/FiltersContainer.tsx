@@ -1,32 +1,32 @@
-import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 
-import { expenseTypeData, categoryData } from '../../data/expensesData';
+import { expenseTypeData, categoryData } from "../../data/expensesData";
 
-import { Label } from '../../components/Label/Label';
-import { Select } from '../../components/Select/Select';
+import { Label } from "../../components/Label/Label";
+import { Select } from "../../components/Select/Select";
 
-import { ExpenseTypeType, CategoryType } from '../../types';
+import { ExpenseTypeType, CategoryType } from "../../types";
 import {
   startAddExpenseTypeFilter,
   startClearExpenseTypeFilter,
   startAddCategoryTypeFilter,
   startClearCategoryTypeFilter
-} from '../../redux/actions/staticFiltersActions';
-import { DateFilter } from '../../components/Filters/DateFilter';
+} from "../../redux/actions/staticFiltersActions";
+import { DateFilter } from "../../components/Filters/DateFilter";
 
 const defaultExpenseType: ExpenseTypeType = {
   id: 0,
-  value: 'default',
-  caption: 'No filter'
+  value: "default",
+  caption: "No filter"
 };
 
 const defaultCategoryType: CategoryType = {
   id: 0,
   type: defaultExpenseType,
-  value: 'default',
-  caption: 'No filter',
-  color: 'color'
+  value: "default",
+  caption: "No filter",
+  color: "color"
 };
 
 const extendedExpenseTypeData: ExpenseTypeType[] = expenseTypeData.concat(defaultExpenseType);
@@ -53,7 +53,7 @@ export const FiltersContainer: React.FC = () => {
   // Expense type dispatcher when expenseType changes
   const dispatchExpenseTypeFilter = React.useCallback(
     (expenseType: ExpenseTypeType) => {
-      if (expenseType.value !== 'default') {
+      if (expenseType.value !== "default") {
         dispatch(startAddExpenseTypeFilter(expenseType.value));
       } else {
         dispatch(startClearExpenseTypeFilter());
@@ -65,7 +65,7 @@ export const FiltersContainer: React.FC = () => {
   // Category type dispatcher when expenseType changes
   const dispatchCategoryTypeFilter = React.useCallback(
     (categoryType: CategoryType) => {
-      if (categoryType.value !== 'default') {
+      if (categoryType.value !== "default") {
         dispatch(startAddCategoryTypeFilter(categoryType.value));
       } else {
         dispatch(startClearCategoryTypeFilter());
@@ -74,13 +74,10 @@ export const FiltersContainer: React.FC = () => {
     [dispatch]
   );
 
-  useEffect(
-    () => {
-      dispatchExpenseTypeFilter(expenseTypeFilter);
-      dispatchCategoryTypeFilter(categoryTypeFilter);
-    },
-    [expenseTypeFilter, categoryTypeFilter, dispatchCategoryTypeFilter, dispatchExpenseTypeFilter]
-  );
+  useEffect(() => {
+    dispatchExpenseTypeFilter(expenseTypeFilter);
+    dispatchCategoryTypeFilter(categoryTypeFilter);
+  }, [expenseTypeFilter, categoryTypeFilter, dispatchCategoryTypeFilter, dispatchExpenseTypeFilter]);
 
   return (
     <div className="FiltersContainer">

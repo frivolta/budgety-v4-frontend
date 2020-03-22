@@ -13,6 +13,7 @@ import { AppState } from "../../../redux/configureStore";
 import { defineFilteredExpenses } from "../../../utils/filters/filters.helper";
 import { startGetAllExpenses } from "../../../redux/actions/expensesActions";
 import { expenseActionsType } from "../../../types/expensesActionTypes";
+import { getCategoryByValue } from "../../../utils/categories";
 
 export const ExpenseWidget: React.FC = () => {
   const filters = useSelector((state: AppState) => state.filters);
@@ -44,10 +45,12 @@ export const ExpenseWidget: React.FC = () => {
             description={expense.description}
             date={expense.date}
             amount={expense.amount}
-            category={expense.category}
+            category={getCategoryByValue(expense.category)}
           />
         ))}
-      {error && <ErrorMessage>{error.message}</ErrorMessage>}
+      {error && error.hasErrors && error.errorType === expenseActionsType.ALL && error.message && (
+        <ErrorMessage>{error.message}</ErrorMessage>
+      )}
     </div>
   );
 };

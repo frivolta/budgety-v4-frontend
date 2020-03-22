@@ -9,6 +9,7 @@ import { startDeleteExpense } from "../../redux/actions/expensesActions";
 import Spinner from "react-svg-spinner";
 import { AppState } from "../../redux/configureStore";
 import { expenseActionsType } from "../../types/expensesActionTypes";
+import { CategoryType } from "../../types";
 
 export const expenseType = {
   EXPENSE: "expense",
@@ -22,7 +23,7 @@ interface IExpenseCard {
   type: string;
   date: string;
   amount: number;
-  category: string;
+  category: CategoryType;
 }
 
 export const ExpenseCard: React.FC<IExpenseCard> = props => {
@@ -30,8 +31,9 @@ export const ExpenseCard: React.FC<IExpenseCard> = props => {
   const { isLoading, loadingType } = useSelector((state: AppState) => state.expense);
   const dispatch = useDispatch();
 
-  const handleDeleteExpense = (expenseId: string) => {
-    dispatch(startDeleteExpense(expenseId));
+  const handleDeleteExpense = async (expenseId: string) => {
+    await dispatch(startDeleteExpense(expenseId));
+    setIsEditMode(false);
   };
 
   return (
@@ -39,8 +41,8 @@ export const ExpenseCard: React.FC<IExpenseCard> = props => {
       {!isEditMode && (
         <div className="StdCard__content__data" onDoubleClick={() => setIsEditMode(!isEditMode)}>
           <>
-            <div className="StdCard__content__category" style={{ color: "#ff224f" }}>
-              {props.category}
+            <div className="StdCard__content__category" style={{ color: props.category.color }}>
+              {props.category.caption}
             </div>
             <div className="StdCard__content__description">
               <span className="no-wrap">{props.description}</span>
@@ -59,7 +61,7 @@ export const ExpenseCard: React.FC<IExpenseCard> = props => {
           <Spinner color="#007aff" thickness={3} speed="slow" size="48px" />
         </div>
       )}
-      {isEditMode && (
+      {isEditMode && !isLoading && (
         <div className="StdCard__content__dialog no-margin" onDoubleClick={() => setIsEditMode(!isEditMode)}>
           <span className="no-wrap">Delete this expense?</span>
           <span className="StdCard__content__dialog__action" onClick={() => handleDeleteExpense(props.id)}>

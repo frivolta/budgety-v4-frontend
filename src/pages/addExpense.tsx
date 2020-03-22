@@ -37,6 +37,7 @@ export const AddExpensePage: React.FC = () => {
     const expenseTypeByValue = expenseTypeData.filter(type => type.value === expenseType);
     const categoriesByExpenseType = getCategoriesByExpenseType(expenseTypeByValue[0]);
     setCategoriesByExpenseType(categoriesByExpenseType);
+    setCategory(categoriesByExpenseType[0].value);
   }, [expenseType]);
 
   const handleSubmit = async () => {
