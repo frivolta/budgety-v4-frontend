@@ -25,12 +25,14 @@
     "@types/yup": "^0.26.27",
     "apollo-boost": "^0.4.7",
     "apollo-link-context": "^1.0.19",
-    "cypress": "^3.8.2",
+    "axios-mock-adapter": "^1.18.1",
+    "chai-subset": "^1.6.0",
     "graphql": "^14.5.8",
     "jwt-decode": "^2.2.0",
     "lodash": "^4.17.15",
     "mock-apollo-client": "^0.2.0",
     "moment": "^2.10.0",
+    "mongodb": "^3.5.5",
     "mutationobserver-shim": "^0.3.3",
     "node-sass": "^4.13.1",
     "normalize.css": "^8.0.1",
@@ -60,7 +62,8 @@
   "scripts": {
     "start": "REACT_APP_HOST=http://localhost:3001/v1 react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --collect-coverage",
+    "test": "REACT_APP_HOST=http://localhost:3001/v1 react-scripts test --collect-coverage",
+    "cypress": "node_modules/.bin/cypress open",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -103,6 +106,7 @@
   "devDependencies": {
     "@apollo/react-testing": "^3.1.3",
     "@testing-library/dom": "^6.11.0",
+    "cypress": "^4.2.0",
     "jest-html-reporter": "^2.8.0"
   },
   "keywords": [],

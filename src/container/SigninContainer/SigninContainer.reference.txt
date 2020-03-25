@@ -1,0 +1,83 @@
+import React from "react";
+import "mutationobserver-shim";
+import "@testing-library/jest-dom/extend-expect";
+
+import { Router } from "react-router-dom";
+import { createMemoryHistory } from "history";
+import { ApolloProvider } from "react-apollo";
+
+import { render, fireEvent, wait, queryByRole } from "@testing-library/react";
+import { act } from "react-dom/test-utils";
+import { createMockClient } from "mock-apollo-client";
+
+import { SigninContainer } from "./SigninContainer";
+
+const validCredentials = {
+  user: "validUser@gmail.com",
+  password: "ValidPassword01!",
+  token:
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjazVyOHJrYTd1YXJkMDkwMTJjZmd5amM1IiwiaWF0IjoxNTgwNTA4Nzc5fQ.PmzKk-tHv-ZMmeLAiCm2pCWJPIr_0W96ToAPzY47l40"
+};
+
+const mockClient = createMockClient();
+const history = createMemoryHistory();
+const setupComponent = (
+  <Router history={history}>
+    <ApolloProvider client={mockClient}>
+      <SigninContainer />
+    </ApolloProvider>
+  </Router>
+);
+
+describe("<SigninContainer/>", () => {
+  it("renders without errors", () => {
+    const { getByTestId } = render(setupComponent);
+    expect(getByTestId("SignupContainer")).toBeInTheDocument();
+  });
+
+  it("renders form with correct fields", () => {
+    const { getByPlaceholderText, getByTestId } = render(setupComponent);
+    expect(getByPlaceholderText("E-mail")).toHaveValue("");
+    expect(getByPlaceholderText("Password")).toHaveValue("");
+    expect(getByTestId("Button")).toHaveTextContent("Login");
+    expect(getByTestId("Button")).toBeDisabled();
+    expect(document.querySelector("a")).toHaveAttribute("href", "/signup");
+  });
+});
+
+describe("<SigninContainer/> mocking mutation", () => {
+  it("correctly signin a valid user", async () => {
+    // Mocking mutation
+    const resolvedQueryHandler = jest.fn().mockResolvedValue({
+      data: {
+        login: {
+          token: "token",
+          user: {
+            id: "id"
+          }
+        }
+      }
+    });
+
+    mockClient.setRequestHandler(SIGNIN_MUTATION, resolvedQueryHandler);
+
+    await act(async () => {
+      const { getByPlaceholderText, getByTestId } = render(setupComponent);
+      const emailField = getByPlaceholderText("E-mail");
+      const passwordField = getByPlaceholderText("Password");
+      const loginButton = getByTestId("Button");
+      fireEvent.change(emailField, { target: { value: validCredentials.user } });
+      fireEvent.change(passwordField, { target: { value: validCredentials.password } });
+      // Click the submit button
+      await wait(async () => fireEvent.click(loginButton));
+      expect(loginButton).not.toBeDisabled();
+      expect(localStorage.getItem("auth-token")).toContain("token");
+      expect(localStorage.getItem("user-id")).toContain("id");
+    });
+    expect(resolvedQueryHandler).toHaveBeenCalledTimes(1);
+    expect(resolvedQueryHandler).toHaveBeenCalledWith({
+      email: validCredentials.user,
+      password: validCredentials.password
+    });
+  });
+});

@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { startSignup } from "../../redux/actions/authActions";
 
+import { useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { SignupSchema } from "../../utils/Signup.schema";
 
@@ -28,9 +29,14 @@ type FormData = {
 
 export const SignupContainer: React.FC = () => {
   const { register, errors, handleSubmit } = useForm<FormData>({ validationSchema: SignupSchema });
-  const { isSigninUp } = useSelector((state: AppState) => state.auth);
+  const { isSigninUp, isLoggedIn } = useSelector((state: AppState) => state.auth);
   const { hasErrors, message } = useSelector((state: AppState) => state.auth.error);
   const dispatch = useDispatch();
+  let history = useHistory();
+
+  React.useEffect(() => {
+    isLoggedIn && history.push("/");
+  }, [isLoggedIn, history]);
 
   const onSubmit = (values: any) => {
     if (values?.email && values?.password) {

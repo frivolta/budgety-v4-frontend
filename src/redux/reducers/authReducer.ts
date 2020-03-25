@@ -79,4 +79,4 @@ const authReducer = (state = authDefaultState, action: authActionTypes): IAuthSt
   }
 };
 
-export { authReducer };
+export { authReducer, authDefaultState };
