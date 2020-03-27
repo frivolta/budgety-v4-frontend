@@ -15,5 +15,5 @@
     "noEmit": true,
     "jsx": "react"
   },
-  "include": ["src", "cypress/integration/app.spec.ts"]
+  "include": ["src", "cypress/integration/app.spec.ts", "cypress"]
 }

@@ -1,8 +1,10 @@
 /// <reference types="cypress" />
+import axios from 'axios'
 
 context('Actions', () => {
   beforeEach(() => {
     cy.visit('https://example.cypress.io/commands/actions')
+    console.log(axios)
   })
 
   // https://on.cypress.io/interacting-with-elements
