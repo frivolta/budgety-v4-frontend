@@ -16,19 +16,7 @@ import { NETWORK } from "../../config/variables";
  *  - Success Toaster message
  *  - Intercepted api request
  *  - Intercepted succesful response
- *  4) User cannot signup with email already present
- *  - Type username
- *  - Type password
- *  - Button must be enabled
- *  - Click Signup
- *  - Loading is spinning
- *  - Intercept api request
- *  - Intercepted rejected response
- *  - Error toaster message
- *  - Error message
  * *) After all, find user by email and delete it (eg: DELETE /auth/test-user)
- *
- * @ToDo 1) ENV credentials, 2
  */
 
 describe("Signup", function() {

@@ -15,8 +15,6 @@ import { Label } from "../../components/Label/Label";
 import { Heading, variation } from "../../components/Heading/Heading";
 import { ErrorMessage } from "../../components/ErrorMessage/ErrorMessage";
 
-import { toasterInfo, toasterError } from "../../utils/showToaster";
-import { SUCCESS, ERRORS } from "../../utils/messages";
 import { formatNetworkErrorMessages } from "../../utils/format";
 
 import { AppState } from "../../redux/configureStore";

@@ -11,6 +11,6 @@ export enum SUCCESS {
 }
 
 export enum SINGIN_MESSAGES {
-  invalidEmail = 'Email not valid',
-  passwordRequired = 'Please enter your password'
+  invalidEmail = "Email not valid",
+  passwordRequired = "Please enter your password"
 }
