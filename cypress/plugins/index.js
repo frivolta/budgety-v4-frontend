@@ -1,5 +1,5 @@
 /// <reference types="cypress" />
-const cypressTypeScriptPreprocessor = require('./cy-ts-preprocessor')
+const dotenvPlugin = require('cypress-dotenv');
 
 /* module.exports = on => {
   on('file:preprocessor', cypressTypeScriptPreprocessor)
@@ -9,7 +9,8 @@ const cypressTypeScriptPreprocessor = require('./cy-ts-preprocessor')
  */
 const wp = require('@cypress/webpack-preprocessor')
 
-module.exports = (on) => {
+module.exports = (on, config) => {
+  config = dotenvPlugin(config)
   const options = {
     webpackOptions: {
       resolve: {

@@ -1,6 +1,8 @@
 /// <reference types="cypress" />
 import * as axios from "axios";
 import { SUCCESS } from "../../../src/utils/messages";
+import { testUser } from "../../config/users";
+import { NETWORK } from "../../config/variables";
 /**
  * Endpoint: http://localhost:3001/v1/test
  * 1) Before all, find user by email and delete it (eg: DELETE /auth/test-user)
@@ -30,14 +32,14 @@ import { SUCCESS } from "../../../src/utils/messages";
  */
 
 describe("Signup", function() {
-  before(() => {
+  this.beforeEach(() => {
     // Create test user
-    axios.default.post("http://localhost:3001/v1/test");
-    cy.visit("http://localhost:3000/signup").contains("Sign up");
+    axios.default.post(`${NETWORK.SERVER}/test`);
+    cy.visit(`${NETWORK.LOCAL}/signup`).contains("Sign up");
   });
 
-  it("User can signup with right credentials", async () => {
-    await axios.default.delete("http://localhost:3001/v1/test");
+  it("signup new user correctly", async () => {
+    await axios.default.delete(`${NETWORK.SERVER}/test`);
 
     //Setup server interceptor
     cy.server();
@@ -46,27 +48,13 @@ describe("Signup", function() {
       method: "POST"
     }).as("signup-request");
 
-    // Fill fields and click signup button
-    cy.get('input[name="email"]')
-      .click()
-      .type("test@user.com");
-    cy.get('input[name="password"]')
-      .click()
-      .type("Ribbon99!");
-    cy.get('input[name="confirmPassword"]')
-      .click()
-      .type("Ribbon99!");
-    // Submitting the button should trigger the spinner
-    cy.get("button")
-      .contains("Sign up")
-      .click()
-      .get('[data-testid="Spinner"]');
+    cy.signupUser({ email: testUser.email, password: testUser.password });
 
     // Ajax call signup
     cy.wait("@signup-request").should(xhr => {
       expect(xhr.request.body).deep.equal({
-        email: "test@user.com",
-        password: "Ribbon99!"
+        email: testUser.email,
+        password: testUser.password
       });
       expect(xhr.response.body).to.have.all.keys("user", "tokens");
     });
@@ -75,10 +63,13 @@ describe("Signup", function() {
     cy.get(".Toaster")
       .contains(SUCCESS.signupSuccess)
       .should("be.visible");
+
+    // Check if path
+    cy.location("pathname").should("eq", "/signin");
   });
 
-  after(() => {
+  this.afterEach(() => {
     // Delete test user
-    axios.default.delete("http://localhost:3001/v1/test");
+    axios.default.delete(`${NETWORK.SERVER}/test`);
   });
 });

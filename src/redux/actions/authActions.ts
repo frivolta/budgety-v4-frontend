@@ -15,9 +15,12 @@ import { IApiUserDetails } from "../../types";
 import { Action } from "redux";
 import { ThunkAction } from "redux-thunk";
 import { setUserToLocalStorage, removeUserFromLocalStorage } from "../../utils/authentication/auth.utils";
+import { toasterInfo, toasterError } from "../../utils/showToaster";
+import { SUCCESS, ERRORS } from "../../utils/messages";
+import { History } from "history";
 
 export interface IStartLoginSignup {
-  (email: string, password: string): ThunkAction<void, AppState, unknown, Action<string>>;
+  (email: string, password: string, history: History): ThunkAction<void, AppState, unknown, Action<string>>;
 }
 
 export interface IStartRefreshLogin {
@@ -60,24 +63,32 @@ const signupFailure = (error: AxiosError) => ({
 });
 
 //@ToDo: Fix this function
-export const startLogin: IStartLoginSignup = (email, password) => async dispatch => {
+export const startLogin: IStartLoginSignup = (email, password, history) => async dispatch => {
   dispatch(loginRequest());
   try {
     const request = await axios.post<IApiUserDetails>(`${process.env.REACT_APP_HOST}/auth/login`, { email, password });
     setUserToLocalStorage(request.data);
     dispatch(loginSuccess(request.data));
+    toasterInfo(SUCCESS.signinSuccess);
+    history.push("/");
   } catch (err) {
     dispatch(loginFailure(err));
+    toasterError(ERRORS.signinFailed);
+    console.error("Signup error: ", err);
   }
 };
 
-export const startSignup: IStartLoginSignup = (email, password) => async dispatch => {
+export const startSignup: IStartLoginSignup = (email, password, history) => async dispatch => {
   try {
     dispatch(signupRequest());
     await axios.post<IApiUserDetails>(`${process.env.REACT_APP_HOST}/auth/register`, { email, password });
     dispatch(signupSuccess());
-  } catch (err) {
-    dispatch(signupFailure(err));
+    toasterInfo(SUCCESS.signupSuccess);
+    history.push("/signin");
+  } catch (error) {
+    toasterError(ERRORS.signupFailed);
+    error.response ? dispatch(signupFailure(error.response.data)) : dispatch(signupFailure(error));
+    console.log(error);
   }
 };
 

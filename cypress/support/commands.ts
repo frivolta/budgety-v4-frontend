@@ -14,6 +14,21 @@ declare global {
 }
 
 export const signupUser = (user: User) => {
-  cy.then(() => user);
+  // Fill fields and click signup button
+  cy.get('input[name="email"]')
+    .click()
+    .type(user.email);
+  cy.get('input[name="password"]')
+    .click()
+    .type(user.password);
+  cy.get('input[name="confirmPassword"]')
+    .click()
+    .type(user.password);
+  // Submitting the button should trigger the spinner
+  cy.get("button")
+    .contains("Sign up")
+    .click();
+  //.get('[data-testid="Spinner"]');
 };
+
 Cypress.Commands.add("signupUser", signupUser);

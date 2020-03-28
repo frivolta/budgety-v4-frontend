@@ -40,13 +40,7 @@ export const SignupContainer: React.FC = () => {
 
   const onSubmit = (values: any) => {
     if (values?.email && values?.password) {
-      try {
-        dispatch(startSignup(values.email, values.password));
-        toasterInfo(SUCCESS.signupSuccess);
-      } catch (err) {
-        toasterError(ERRORS.signupFailed);
-        console.error("Signup error: ", err);
-      }
+      dispatch(startSignup(values.email, values.password, history));
     }
   };
 
