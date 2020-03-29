@@ -2,43 +2,37 @@
 import { SUCCESS, ERRORS } from "../../../src/utils/messages";
 import { testUser } from "../../config/users";
 import { NETWORK } from "../../config/variables";
-import { IApiUserDetails } from "../../../src/types";
-import { AxiosError } from "axios";
+
+import { setUserToLocalStorage } from "../../../src/utils/authentication/auth.utils";
+import { successfullLoginResponse, rejectedLoginResponse } from "../../mocks/signin-api.mock";
 /**
  * 1) User can login with right credentials
  *  - Type username
  *  - Type password
- *  - Button must be enabled
  *  - Click Signin
  *  - Intercepted api request
  *  - Intercepted succesful response
  *  - Localstorage has token and user
  *  - Success Toaster message
  *  - User is redirected
- *  - Redirects already logged in user
+ *
+ * 2) User is rejected if invalid email or password
+ *  - Type username
+ *  - Type password
+ *  - Click Signin
+ *  - Intercepted api request
+ *  - Intercepted succesful response
+ *  - Localstorage has token and user
+ *  - Success Toaster message
+ *  - User is redirected
+ *
+ * 3) Let user correctly see dashboard if already logged in
+ * 4) User is shown enabled or disabled button based on fields validation
+ *  - Email but empty password
+ *  - All fields are correct, button enabled
+ *  - Email is invalid
+ *
  */
-
-export const successfullLoginResponse: IApiUserDetails = {
-  user: { id: "5e7fe0a60ffb7e5e9ef321e7", email: "test@user.com", role: "user" },
-  tokens: {
-    access: {
-      token:
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZTdmZTBhNjBmZmI3ZTVlOWVmMzIxZTciLCJpYXQiOjE1ODU0Nzc5MjQsImV4cCI6MTU4ODEwNTkyNH0.gjRFvFxv6efFeegKTqgCWhg2I6WfHSKByBnofW8feWg",
-      expires: "2020-04-28T20:32:04.094Z"
-    },
-    refresh: {
-      token:
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZTdmZTBhNjBmZmI3ZTVlOWVmMzIxZTciLCJpYXQiOjE1ODU0Nzc5MjQsImV4cCI6MTU4ODA2OTkyNH0.tpdEGO-llJuRnZ3WLpuQWa1Nv7ATZrhE7gIcC4_wYM0",
-      expires: "2020-04-28T10:32:04.094Z"
-    }
-  }
-};
-
-export const rejectedLoginResponse: AxiosError = {
-  code: 401,
-  message: "Incorrect email or password",
-  stack: "Error: Incorrect email or password"
-};
 
 describe("Signin", () => {
   beforeEach(() => {
@@ -106,5 +100,36 @@ describe("Signin", () => {
 
     // Location change
     cy.location("pathname").should("eq", "/signin");
+  });
+  it("let the user visit the dashboard if already logged in", () => {
+    setUserToLocalStorage(successfullLoginResponse);
+    cy.visit(`${NETWORK.LOCAL}/`);
+    cy.location("pathname").should("eq", "/");
+  });
+
+  it("shows disabled button if empty fields or incorrect email", () => {
+    // Button starts disabled
+    cy.get("button").should("be.disabled");
+    // Email without password
+    cy.get('input[name="email"]')
+      .click()
+      .type(testUser.email);
+
+    cy.get("button").should("be.disabled");
+
+    // Email and password
+    cy.get('input[name="password"]')
+      .click()
+      .type(testUser.password);
+
+    cy.get("button").should("be.enabled");
+
+    // Empty email and set invalid email
+    cy.get('input[name="email"]')
+      .click()
+      .clear()
+      .type("invalidemail.com");
+
+    cy.get("button").should("be.disabled");
   });
 });
