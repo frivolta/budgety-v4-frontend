@@ -56,12 +56,12 @@ export const ExpenseCountWidget: React.FC = () => {
   return (
     <>
       <StdCard className="ExpenseCountWidget ExpenseCountWidget--primary">
-        <div className="ExpenseCountWidget__caption">
+        <div className="ExpenseCountWidget__caption" data-testid="ExpenseCountWidgetExpenses">
           Expenses: <span>- {convertAmountToCurrency(expenses)}</span>
         </div>
       </StdCard>
       <StdCard className="ExpenseCountWidget  ExpenseCountWidget--alt">
-        <div className="ExpenseCountWidget__caption">
+        <div className="ExpenseCountWidget__caption" data-testid="ExpenseCountWidgetIncomes">
           Incomes: <span>+ {convertAmountToCurrency(incomes)}</span>
         </div>
       </StdCard>
@@ -70,6 +70,7 @@ export const ExpenseCountWidget: React.FC = () => {
           className={`ExpenseCountWidget__caption ${
             positiveSymbol ? "ExpenseCountWidget__caption--positive" : "ExpenseCountWidget__caption--negative"
           }`}
+          data-testid="ExpenseCountWidgetTotal"
         >
           Total: <span>{convertAmountToCurrency(total)}</span>
         </div>

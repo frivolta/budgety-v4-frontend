@@ -1,6 +1,12 @@
 import { AxiosError } from "axios";
 import { IApiUserDetails } from "../../src/types";
 
+export type AxiosErrorCypress = {
+  code: number;
+  message: string;
+  stack: string;
+};
+
 // Successfull login response and local storage
 export const successfullLoginResponse: IApiUserDetails = {
   user: { id: "5e7fe0a60ffb7e5e9ef321e7", email: "test@user.com", role: "user" },
@@ -19,7 +25,7 @@ export const successfullLoginResponse: IApiUserDetails = {
 };
 
 // Rejected login response
-export const rejectedLoginResponse: AxiosError = {
+export const rejectedLoginResponse: AxiosErrorCypress = {
   code: 401,
   message: "Incorrect email or password",
   stack: "Error: Incorrect email or password"

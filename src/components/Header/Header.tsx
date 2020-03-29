@@ -31,7 +31,12 @@ export const Header: React.FC = () => {
   return (
     <div className="Header">
       <div className="Header__left">
-        <div className="Icon Icon__menu" role="button" onClick={() => setSidenavIsOpen(!sidenavIsOpen)}>
+        <div
+          className="Icon Icon__menu"
+          role="button"
+          onClick={() => setSidenavIsOpen(!sidenavIsOpen)}
+          data-testid="SidenavTrigger"
+        >
           <img src="/images/burger-menu.svg" alt="burger menu" />
         </div>
         <div className="Icon Icon__darkmode">
@@ -41,7 +46,7 @@ export const Header: React.FC = () => {
       <div className="Header__right">
         <Label classNames="mr-1 strong">{headerEmail()}</Label>
         {!isLoggingIn && (
-          <div className="Icon Icon__logout" role="button" onClick={() => handleLogout()}>
+          <div className="Icon Icon__logout" role="button" onClick={() => handleLogout()} data-testid="LogoutButton">
             <img src="/images/logout.svg" alt="burger menu" />
           </div>
         )}
