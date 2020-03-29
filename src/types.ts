@@ -62,7 +62,7 @@ export interface IApiUserDetails {
   user: {
     id: string;
     email: string;
-    name: string;
+    name?: string;
     role: string;
   };
   tokens: ITokens;

@@ -12,8 +12,6 @@ import { Label } from "../../components/Label/Label";
 import { Heading, variation } from "../../components/Heading/Heading";
 import { ErrorMessage } from "../../components/ErrorMessage/ErrorMessage";
 
-import { toasterInfo, toasterError } from "../../utils/showToaster";
-import { SUCCESS, ERRORS } from "../../utils/messages";
 import { formatNetworkErrorMessages } from "../../utils/format";
 import { startLogin } from "../../redux/actions/authActions";
 
@@ -23,20 +21,9 @@ export const SigninContainer: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { hasErrors, message } = useSelector((state: AppState) => state.auth.error);
-  const { isLoggedIn, user, isLoggingIn } = useSelector((state: AppState) => state.auth);
+  const { isLoggingIn } = useSelector((state: AppState) => state.auth);
   const dispatch = useDispatch();
   let history = useHistory();
-
-  React.useEffect(() => {
-    if (hasErrors) {
-      toasterError(`${ERRORS.signinFailed}: ${message}`);
-      console.error("Signin error: ", message);
-    }
-    if (isLoggedIn && user) {
-      toasterInfo(SUCCESS.signinSuccess);
-      history.push("/expense/add");
-    }
-  }, [hasErrors, message, isLoggedIn, user, history]);
 
   const isValidEmail = (validationEmail: string): boolean => validator.isEmail(email);
   const isValidPassword = (validationPassword: string): boolean => !validator.isEmpty(validationPassword);

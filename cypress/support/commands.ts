@@ -9,6 +9,7 @@ declare global {
   namespace Cypress {
     interface Chainable {
       signupUser: (user: User) => Chainable<User>;
+      signinUser: (user: User) => Chainable<User>;
     }
   }
 }
@@ -31,4 +32,19 @@ export const signupUser = (user: User) => {
   //.get('[data-testid="Spinner"]');
 };
 
+export const signinUser = (user: User) => {
+  // Fill fields and click signup button
+  cy.get('input[name="email"]')
+    .click()
+    .type(user.email);
+  cy.get('input[name="password"]')
+    .click()
+    .type(user.password);
+  cy.get("button")
+    .contains("Login")
+    .click()
+    .get('[data-testid="Spinner"]');
+};
+
 Cypress.Commands.add("signupUser", signupUser);
+Cypress.Commands.add("signinUser", signinUser);

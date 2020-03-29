@@ -1,5 +1,4 @@
 /// <reference types="cypress" />
-import { ERRORS } from "../../../src/utils/messages";
 import { testUser } from "../../config/users";
 import { NETWORK } from "../../config/variables";
 import { SIGNUP_ERRORS } from "../../../src/utils/Signup.schema";

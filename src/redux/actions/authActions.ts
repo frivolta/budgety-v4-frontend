@@ -64,17 +64,17 @@ const signupFailure = (error: AxiosError) => ({
 
 //@ToDo: Fix this function
 export const startLogin: IStartLoginSignup = (email, password, history) => async dispatch => {
-  dispatch(loginRequest());
   try {
+    dispatch(loginRequest());
     const request = await axios.post<IApiUserDetails>(`${process.env.REACT_APP_HOST}/auth/login`, { email, password });
     setUserToLocalStorage(request.data);
     dispatch(loginSuccess(request.data));
     toasterInfo(SUCCESS.signinSuccess);
     history.push("/");
-  } catch (err) {
-    dispatch(loginFailure(err));
+  } catch (error) {
+    error.response ? dispatch(loginFailure(error.response.data)) : dispatch(loginFailure(error));
     toasterError(ERRORS.signinFailed);
-    console.error("Signup error: ", err);
+    console.error("Signup error: ", error);
   }
 };
 
