@@ -22,13 +22,8 @@ export const FiltersManagementBar: React.FC = () => {
   const _dateFilterRender = () =>
     filters.expenseDateFilter.isActive ? (
       <div className="FiltersManagementBar__item">
-        <p>
-          {moment(filters.expenseDateFilter.filterValue[0]).format("MMMM YYYY")}
-        </p>
-        <span
-          className="FiltersManagementBar__item__remove"
-          onClick={() => dispatch(clearDateTypeFilter())}
-        >
+        <p>{moment(filters.expenseDateFilter.filterValue[0]).format("MMMM YYYY")}</p>
+        <span className="FiltersManagementBar__item__remove" onClick={() => dispatch(clearDateTypeFilter())}>
           <FontAwesomeIcon icon={faTimesCircle} />
         </span>
       </div>
@@ -41,15 +36,8 @@ export const FiltersManagementBar: React.FC = () => {
   const _categoryFilterRender = () =>
     filters.expenseCategoryFilter.isActive ? (
       <div className="FiltersManagementBar__item">
-        <p>
-          {filters.expenseCategoryFilter.filterValue.map(
-            filterValue => filterValue
-          )}
-        </p>
-        <span
-          className="FiltersManagementBar__item__remove"
-          onClick={() => dispatch(clearCategoryTypeFilter())}
-        >
+        <p>{filters.expenseCategoryFilter.filterValue.map(filterValue => filterValue)}</p>
+        <span className="FiltersManagementBar__item__remove" onClick={() => dispatch(clearCategoryTypeFilter())}>
           <FontAwesomeIcon icon={faTimesCircle} />
         </span>
       </div>
@@ -62,15 +50,8 @@ export const FiltersManagementBar: React.FC = () => {
   const _typeFilterRender = () =>
     filters.expenseTypeFilter.isActive ? (
       <div className="FiltersManagementBar__item">
-        <p>
-          {filters.expenseTypeFilter.filterValue.map(
-            filterValue => filterValue
-          )}
-        </p>
-        <span
-          className="FiltersManagementBar__item__remove"
-          onClick={() => dispatch(clearExpenseTypeFilter())}
-        >
+        <p>{filters.expenseTypeFilter.filterValue.map(filterValue => filterValue)}</p>
+        <span className="FiltersManagementBar__item__remove" onClick={() => dispatch(clearExpenseTypeFilter())}>
           <FontAwesomeIcon icon={faTimesCircle} />
         </span>
       </div>
@@ -82,7 +63,7 @@ export const FiltersManagementBar: React.FC = () => {
 
   return (
     <StdCard>
-      <div className="FiltersManagementBar">
+      <div className="FiltersManagementBar" data-testid="FiltersManagementBar">
         {_dateFilterRender()} {_categoryFilterRender()}
         {_typeFilterRender()}
       </div>

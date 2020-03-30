@@ -58,6 +58,7 @@ export interface ITokens {
   };
 }
 
+// Api's
 export interface IApiUserDetails {
   user: {
     id: string;
@@ -67,6 +68,20 @@ export interface IApiUserDetails {
   };
   tokens: ITokens;
 }
+
+export type ApiExpensDetails = {
+  description: string;
+  date: string;
+  amount: number;
+  _id: string;
+  category: string;
+  type: string;
+  user: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: 0;
+  id: string;
+};
 
 // General Types
 export interface IError {
