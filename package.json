@@ -59,7 +59,7 @@
     "jest-resolve": "24.9.0",
     "jest-watch-typeahead": "0.4.2",
     "jwt-decode": "^2.2.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "mini-css-extract-plugin": "0.8.0",
     "mock-apollo-client": "^0.2.0",
     "moment": "^2.10.0",
